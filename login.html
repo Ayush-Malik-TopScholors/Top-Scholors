@@ -1,83 +1,80 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Login - Top Scholars</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scholars - Login</title>
   <style>
     body {
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to bottom right, navy, gold);
+      padding: 0;
+      font-family: "Segoe UI", sans-serif;
+      background: linear-gradient(120deg, #001f3f, #0074D9);
       height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
     }
     .login-box {
       background: white;
       padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-      width: 350px;
-    }
-    h2 {
+      border-radius: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      width: 320px;
       text-align: center;
-      color: navy;
-      margin-bottom: 30px;
     }
-    label {
-      font-weight: bold;
-      display: block;
-      margin-top: 15px;
+    .login-box h2 {
+      margin-bottom: 25px;
+      color: #001f3f;
     }
-    input {
+    .login-box input[type="text"],
+    .login-box input[type="password"] {
       width: 100%;
-      padding: 10px;
-      margin-top: 5px;
+      padding: 12px;
+      margin: 10px 0;
       border: 1px solid #ccc;
       border-radius: 8px;
+      font-size: 16px;
     }
-    button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 25px;
-      background-color: navy;
-      color: white;
+    .login-box input[type="submit"] {
+      background: #0074D9;
       border: none;
+      color: white;
+      padding: 12px;
+      width: 100%;
       border-radius: 8px;
-      font-weight: bold;
+      font-size: 16px;
       cursor: pointer;
+      transition: 0.3s ease;
     }
-    button:hover {
-      background-color: #001a4d;
+    .login-box input[type="submit"]:hover {
+      background: #005fa3;
     }
-    .register-link {
-      text-align: center;
-      margin-top: 20px;
+    .login-box .register-link {
+      margin-top: 15px;
       font-size: 14px;
     }
-    .register-link a {
-      color: navy;
+    .login-box .register-link a {
+      color: #0074D9;
+      font-weight: bold;
       text-decoration: none;
+    }
+    .login-box .register-link a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-
   <div class="login-box">
-    <h2>Student Login</h2>
+    <h2>Login to Top Scholars</h2>
     <form>
-      <label for="username">Username or Email</label>
-      <input type="text" id="username" required>
-
-      <label for="password">Password</label>
-      <input type="password" id="password" required>
-
-      <button type="submit">Login</button>
+      <input type="text" placeholder="Username" required />
+      <input type="password" placeholder="Password" required />
+      <input type="submit" value="Login" />
     </form>
     <div class="register-link">
-      Don't have an account? <a href="Register here</a>
+      Don’t have an account? <a href="register.html">Register here</a>
     </div>
   </div>
-
 </body>
 </html>
