@@ -8,72 +8,75 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "Segoe UI", sans-serif;
-      background: linear-gradient(120deg, #001f3f, #0074D9);
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(120deg, #0b1e3f, #1e3c72);
       height: 100vh;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
     }
-    .login-box {
+
+    .login-container {
       background: white;
       padding: 40px;
-      border-radius: 15px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
       width: 320px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .login-container h2 {
       text-align: center;
+      color: #0b1e3f;
+      margin-bottom: 30px;
     }
-    .login-box h2 {
-      margin-bottom: 25px;
-      color: #001f3f;
-    }
-    .login-box input[type="text"],
-    .login-box input[type="password"] {
+
+    .login-container input {
       width: 100%;
       padding: 12px;
       margin: 10px 0;
       border: 1px solid #ccc;
-      border-radius: 8px;
+      border-radius: 6px;
       font-size: 16px;
     }
-    .login-box input[type="submit"] {
-      background: #0074D9;
-      border: none;
-      color: white;
-      padding: 12px;
+
+    .login-container button {
       width: 100%;
-      border-radius: 8px;
+      padding: 12px;
+      background-color: #1e3c72;
+      color: white;
+      border: none;
+      border-radius: 6px;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.3s ease;
+      transition: 0.3s;
     }
-    .login-box input[type="submit"]:hover {
-      background: #005fa3;
+
+    .login-container button:hover {
+      background-color: #0b1e3f;
     }
-    .login-box .register-link {
+
+    .login-container .footer {
+      text-align: center;
       margin-top: 15px;
       font-size: 14px;
     }
-    .login-box .register-link a {
-      color: #0074D9;
-      font-weight: bold;
+
+    .login-container .footer a {
+      color: #1e3c72;
       text-decoration: none;
-    }
-    .login-box .register-link a:hover {
-      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="login-box">
-    <h2>Login to Top Scholars</h2>
-    <form>
+  <div class="login-container">
+    <h2>Top Scholars Login</h2>
+    <form action="dashboard.html" method="get">
       <input type="text" placeholder="Username" required />
       <input type="password" placeholder="Password" required />
-      <input type="submit" value="Login" />
+      <button type="submit">Login</button>
     </form>
-    <div class="register-link">
-      Don’t have an account? <a href="register.html">Register here</a>
+    <div class="footer">
+      New user? <a href="register.html">Register here</a>
     </div>
   </div>
 </body>
