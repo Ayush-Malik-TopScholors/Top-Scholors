@@ -1,1 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scholars Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f6f9;
+    }
 
+    header {
+      background-color: #0b1e3f;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+
+    .content {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .content h2 {
+      color: #0b1e3f;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .content p {
+      color: #333;
+      font-size: 18px;
+    }
+
+    .btn-logout {
+      margin-top: 30px;
+      padding: 10px 20px;
+      background-color: #1e3c72;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .btn-logout:hover {
+      background-color: #0b1e3f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Welcome to Top Scholars</h1>
+  </header>
+
+  <div class="content">
+    <h2>Hello, Scholar!</h2>
+    <p>You're successfully logged in. Explore your courses, track your progress, and stay ahead!</p>
+    <button class="btn-logout" onclick="logout()">Logout</button>
+  </div>
+
+  <script>
+    function logout() {
+      window.location.href = "login.html";
+    }
+  </script>
+</body>
+</html>
