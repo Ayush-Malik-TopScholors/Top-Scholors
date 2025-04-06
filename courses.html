@@ -1,199 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Courses - Top Scholars</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f4f8fb;
-    }
-
-    header {
-      background: navy;
-      color: white;
-      padding: 1rem 2rem;
-      text-align: center;
-    }
-
-    h1 {
-      margin: 0.5rem 0;
-    }
-
-    .courses-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 1.5rem;
-      padding: 2rem;
+      background-color: #f8f9fa;
     }
 
     .course-card {
-      background: white;
-      padding: 1.5rem;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
-      transition: transform 0.3s;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .course-card:hover {
-      transform: translateY(-5px);
+      transform: translateY(-10px);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
     }
 
-    .course-title {
-      font-size: 1.3rem;
-      font-weight: bold;
-      margin-bottom: 0.8rem;
+    .btn-explore, .btn-enroll {
+      border-radius: 30px;
+      padding: 8px 20px;
+      font-weight: 500;
     }
 
-    .course-description {
-      font-size: 1rem;
-      margin-bottom: 1.2rem;
-      color: #444;
-    }
-
-    .button-group {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .button {
-      padding: 0.6rem 1rem;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      transition: background 0.3s;
-      text-align: center;
-      text-decoration: none;
+    .btn-explore {
+      background-color: #0d6efd;
       color: white;
     }
 
-    .explore-btn {
-      background-color: #0066cc;
-    }
-
-    .explore-btn:hover {
-      background-color: #005bb5;
-    }
-
-    .enroll-btn {
-      background-color: #28a745;
-    }
-
-    .enroll-btn:hover {
-      background-color: #218838;
-    }
-
-    /* Modal */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 999;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      overflow: auto;
-      background-color: rgba(0, 0, 0, 0.6);
-    }
-
-    .modal-content {
-      background-color: #fff;
-      margin: 10% auto;
-      padding: 2rem;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 500px;
-    }
-
-    .close {
-      float: right;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #555;
-      cursor: pointer;
-    }
-
-    .close:hover {
-      color: red;
+    .btn-enroll {
+      background-color: #ffc107;
+      color: black;
     }
   </style>
 </head>
+
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">Top Scholars</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link active" href="courses.html">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-<header>
-  <h1>Our Courses</h1>
-  <p>Choose a course to explore and enroll</p>
-</header>
+  <div class="container py-5">
+    <h2 class="text-center mb-4">Our Courses</h2>
+    <div class="row g-4">
+      <!-- Course Cards -->
+      <!-- Repeat below block for each course -->
+      <script>
+        const courses = [
+          { name: "Class 6", file: "class6.html" },
+          { name: "Class 7", file: "class7.html" },
+          { name: "Class 8", file: "class8.html" },
+          { name: "Class 9", file: "class9.html" },
+          { name: "Class 10", file: "class10.html" },
+          { name: "Class 11", file: "class11.html" },
+          { name: "Class 12", file: "class12.html" },
+          { name: "BBA", file: "bba.html" },
+          { name: "BCA", file: "bca.html" }
+        ];
+      </script>
 
-<main class="courses-container">
-  <div class="course-card">
-    <div class="course-title">Class 9 Science</div>
-    <div class="course-description">Detailed conceptual learning with tests, notes, quizzes.</div>
-    <div class="button-group">
-      <button class="button explore-btn" onclick="openModal('Class 9 Science')">Explore Now</button>
-      <a href="login.html" class="button enroll-btn">Enroll Now</a>
+      <div id="course-container" class="row g-4"></div>
     </div>
   </div>
 
-  <div class="course-card">
-    <div class="course-title">Class 10 Mathematics</div>
-    <div class="course-description">Master formulas and practice with quizzes and assignments.</div>
-    <div class="button-group">
-      <button class="button explore-btn" onclick="openModal('Class 10 Mathematics')">Explore Now</button>
-      <a href="login.html" class="button enroll-btn">Enroll Now</a>
-    </div>
-  </div>
+  <script>
+    const container = document.getElementById("course-container");
+    courses.forEach(course => {
+      const col = document.createElement("div");
+      col.className = "col-md-4";
+      col.innerHTML = `
+        <div class="card course-card p-3 h-100">
+          <h5 class="card-title">${course.name}</h5>
+          <p class="card-text">Explore comprehensive material, quizzes, polls, and more.</p>
+          <div class="d-flex justify-content-between">
+            <a href="dashboard/${course.file}" class="btn btn-explore">Explore Now</a>
+            <a href="login.html" class="btn btn-enroll">Enroll Now</a>
+          </div>
+        </div>`;
+      container.appendChild(col);
+    });
+  </script>
 
-  <div class="course-card">
-    <div class="course-title">BCA Programming</div>
-    <div class="course-description">Code confidently with live classes, notes, and coding tests.</div>
-    <div class="button-group">
-      <button class="button explore-btn" onclick="openModal('BCA Programming')">Explore Now</button>
-      <a href="login.html" class="button enroll-btn">Enroll Now</a>
-    </div>
-  </div>
-</main>
-
-<!-- Modal -->
-<div id="courseModal" class="modal">
-  <div class="modal-content">
-    <span class="close" onclick="closeModal()">&times;</span>
-    <h2 id="modalTitle">Course Title</h2>
-    <p>This course includes:</p>
-    <ul>
-      <li>📝 Chapter-wise Notes</li>
-      <li>📚 Practice Tests</li>
-      <li>🧠 Quizzes & Polls</li>
-      <li>📈 Progress Tracking</li>
-      <li>🎯 Live Doubt Sessions</li>
-    </ul>
-  </div>
-</div>
-
-<script>
-  function openModal(courseTitle) {
-    document.getElementById("modalTitle").textContent = courseTitle;
-    document.getElementById("courseModal").style.display = "block";
-  }
-
-  function closeModal() {
-    document.getElementById("courseModal").style.display = "none";
-  }
-
-  // Close modal when clicking outside the modal
-  window.onclick = function(event) {
-    const modal = document.getElementById("courseModal");
-    if (event.target == modal) {
-      modal.style.display = "none";
-    }
-  };
-</script>
-
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
