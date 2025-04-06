@@ -2,112 +2,125 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Top Scholars | Where Excellence Meets Innovation</title>
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <!-- AOS CSS -->
-  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet"/>
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Top Scholars - Where Excellence Meets Innovation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
-      font-family: 'Montserrat', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
     }
     .navbar {
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      background-color: #0a0f3c;
+    }
+    .navbar-brand, .nav-link {
+      color: #fff !important;
     }
     .hero {
-      background: linear-gradient(rgba(0,0,50,0.7), rgba(0,0,50,0.7)), url('https://images.unsplash.com/photo-1584697964233-62f2f9897e7e') center/cover no-repeat;
+      background: linear-gradient(to right, #0a0f3c, #1e2761);
       color: white;
-      padding: 100px 0;
+      padding: 80px 20px;
       text-align: center;
     }
     .hero h1 {
       font-size: 3rem;
-      font-weight: 700;
     }
-    .hero p {
-      font-size: 1.3rem;
+    .section {
+      padding: 60px 20px;
+    }
+    .btn-primary {
+      background-color: #ffd700;
+      color: #000;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #e6c200;
     }
     footer {
-      background-color: #001f3f;
+      background-color: #0a0f3c;
       color: white;
-      padding: 20px 0;
+      text-align: center;
+      padding: 20px;
     }
   </style>
 </head>
 <body>
 
-  <!-- NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Top Scholars</a>
+      <a class="navbar-brand" href="#">Top Scholars</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon bg-light rounded"></span>
       </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="courses.html">Courses</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link btn btn-light text-primary ms-2" href="login.html">Login</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Courses</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item"><a class="nav-link btn btn-primary ms-2" href="#">Login</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <!-- HERO SECTION -->
-  <section class="hero">
+  <!-- Hero Section -->
+  <div class="hero">
     <div class="container">
-      <h1 data-aos="fade-down">Welcome to Top Scholars</h1>
-      <p data-aos="fade-up" data-aos-delay="200">Where Excellence Meets Innovation</p>
+      <h1>Welcome to Top Scholars</h1>
+      <p class="lead">Where Excellence Meets Innovation</p>
+      <a href="#" class="btn btn-primary mt-3">Explore Now</a>
     </div>
-  </section>
+  </div>
 
-  <!-- ABOUT SECTION -->
-  <section id="about" class="py-5 bg-light">
+  <!-- About Section -->
+  <div class="section text-center">
     <div class="container">
-      <h2 class="text-center mb-4" data-aos="fade-up">About Top Scholars</h2>
-      <p class="lead text-center" data-aos="fade-up" data-aos-delay="100">
-        At <strong>Top Scholars</strong>, we deliver excellence through expert faculty, deep concept clarity, and an innovative environment. From Class 6 to BBA/BCA — we support your academic journey.
-      </p>
-      <div class="row text-center mt-5">
-        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
-          <div class="p-4 shadow rounded bg-white h-100">
-            <h4 class="mb-3">Our Mission</h4>
-            <p>Empower students with strong fundamentals, exam-oriented strategies, and confidence for life-long success.</p>
+      <h2>Why Choose Us?</h2>
+      <p class="mt-3">At Top Scholars, we provide high-quality education through expert faculty, interactive courses, and real-time guidance. Join us to unlock your full academic potential!</p>
+    </div>
+  </div>
+
+  <!-- Courses Preview -->
+  <div class="section bg-light text-center">
+    <div class="container">
+      <h2>Popular Courses</h2>
+      <div class="row mt-4">
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Mathematics (Class 9-12)</h5>
+              <p class="card-text">Learn from Er. Puneet Malik with top-tier strategies and practice materials.</p>
+            </div>
           </div>
         </div>
-        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
-          <div class="p-4 shadow rounded bg-white h-100">
-            <h4 class="mb-3">Our Vision</h4>
-            <p>To be India’s most trusted and innovative coaching hub, unlocking the best in every learner.</p>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">Science (Class 9-10)</h5>
+              <p class="card-text">Master Physics and Chemistry concepts with Ayush Malik's expert guidance.</p>
+            </div>
           </div>
         </div>
-        <div class="col-md-4" data-aos="zoom-in" data-aos-delay="400">
-          <div class="p-4 shadow rounded bg-white h-100">
-            <h4 class="mb-3">Why Choose Us?</h4>
-            <p>Experienced faculty, doubt support, mock tests, conceptual learning — everything you need to succeed.</p>
+        <div class="col-md-4 mb-4">
+          <div class="card h-100 shadow-sm">
+            <div class="card-body">
+              <h5 class="card-title">English (Class 9-12)</h5>
+              <p class="card-text">Build strong communication and grammar skills with Lt. Savita Chaudhary.</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- FOOTER -->
-  <footer class="text-center">
+  <!-- Footer -->
+  <footer>
     <div class="container">
-      <p>&copy; 2025 Top Scholars. All rights reserved.</p>
+      <p>&copy; 2025 Top Scholars | Designed with passion & dedication</p>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-  <script>
-    AOS.init();
-  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
