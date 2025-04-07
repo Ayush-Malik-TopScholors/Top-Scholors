@@ -8,64 +8,41 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #f4f6f9;
+      background-color: #f0f2f5;
     }
     .dashboard {
-      max-width: 800px;
+      max-width: 600px;
       margin: 50px auto;
-      background: white;
+      background: #fff;
       padding: 30px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .profile-pic {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 3px solid #007bff;
-    }
-    .edit-btn {
-      cursor: pointer;
+    .logout-btn {
+      float: right;
     }
   </style>
 </head>
 <body>
-
-  <div class="dashboard text-center">
-    <h2 class="mb-4">Welcome to Your Dashboard</h2>
-    <img src="https://via.placeholder.com/120" alt="Profile Picture" id="profilePreview" class="profile-pic mb-3" />
-    <div class="mb-3">
-      <input type="file" id="profilePicInput" class="form-control" />
-    </div>
-    <div class="form-group text-start">
-      <label>Email</label>
-      <input type="email" id="userEmail" class="form-control" readonly>
-    </div>
-    <div class="form-group mt-3 text-start">
-      <label>Full Name</label>
-      <input type="text" id="userName" class="form-control">
-    </div>
-    <div class="form-group mt-3 text-start">
-      <label>Phone</label>
-      <input type="text" id="userPhone" class="form-control">
-    </div>
-    <button class="btn btn-primary mt-4" id="saveProfile">Save Profile</button>
-    <button class="btn btn-danger mt-2" id="logoutBtn">Logout</button>
+  <div class="dashboard">
+    <h3>Welcome, <span id="userName">User</span></h3>
+    <button class="btn btn-danger logout-btn" onclick="logout()">Logout</button>
+    <hr/>
+    <p><strong>Email:</strong> <span id="userEmail"></span></p>
+    <p><strong>Course:</strong> <span id="userCourse"></span></p>
   </div>
 
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-storage.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
       authDomain: "top-scholors.firebaseapp.com",
       projectId: "top-scholors",
-      storageBucket: "top-scholors.appspot.com",
+      storageBucket: "top-scholors.firebasestorage.app",
       messagingSenderId: "1000049112861",
       appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
     };
@@ -73,71 +50,37 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
-    const userEmailEl = document.getElementById("userEmail");
-    const userNameEl = document.getElementById("userName");
-    const userPhoneEl = document.getElementById("userPhone");
-    const profilePicInput = document.getElementById("profilePicInput");
-    const profilePreview = document.getElementById("profilePreview");
+    const userName = document.getElementById('userName');
+    const userEmail = document.getElementById('userEmail');
+    const userCourse = document.getElementById('userCourse');
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        userEmailEl.value = user.email;
-
         const docRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(docRef);
+        const docSnap = await getDoc(docRef);
 
-        if (userSnap.exists()) {
-          const data = userSnap.data();
-          userNameEl.value = data.name || '';
-          userPhoneEl.value = data.phone || '';
-          if (data.profilePic) {
-            profilePreview.src = data.profilePic;
-          }
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          userName.textContent = data.fullName || "User";
+          userEmail.textContent = user.email;
+          userCourse.textContent = data.course || "Not selected";
+        } else {
+          alert("No user data found in Firestore.");
         }
       } else {
+        // User not logged in
         window.location.href = "login.html";
       }
     });
 
-    document.getElementById("saveProfile").addEventListener("click", async () => {
-      const user = auth.currentUser;
-      if (!user) return;
-
-      const name = userNameEl.value;
-      const phone = userPhoneEl.value;
-      let profilePicUrl = profilePreview.src;
-
-      if (profilePicInput.files.length > 0) {
-        const file = profilePicInput.files[0];
-        const fileRef = ref(storage, `profilePics/${user.uid}`);
-        await uploadBytes(fileRef, file);
-        profilePicUrl = await getDownloadURL(fileRef);
-      }
-
-      await setDoc(doc(db, "users", user.uid), {
-        name,
-        phone,
-        email: user.email,
-        profilePic: profilePicUrl
-      });
-
-      alert("Profile updated successfully!");
-    });
-
-    document.getElementById("logoutBtn").addEventListener("click", () => {
+    function logout() {
       signOut(auth).then(() => {
         window.location.href = "login.html";
+      }).catch((error) => {
+        alert("Error logging out");
       });
-    });
-
-    // Preview image
-    profilePicInput.addEventListener("change", (e) => {
-      const reader = new FileReader();
-      reader.onload = () => profilePreview.src = reader.result;
-      reader.readAsDataURL(e.target.files[0]);
-    });
+    }
   </script>
 </body>
 </html>
