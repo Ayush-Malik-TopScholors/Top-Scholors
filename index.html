@@ -1,141 +1,141 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Top Scholars - Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scholars | Where Excellence Meets Innovation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      color: #333;
-    }
-
-    .navbar {
-      background-color: #001f3f;
-    }
-
-    .navbar-brand,
-    .nav-link {
-      color: white !important;
-      font-weight: 500;
+      scroll-behavior: smooth;
     }
 
     .hero {
-      background: linear-gradient(to right, #001f3f, #0074D9);
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1600x600/?education,students') center/cover no-repeat;
       color: white;
-      padding: 100px 30px;
+      padding: 120px 20px;
       text-align: center;
     }
 
     .hero h1 {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: bold;
-      margin-bottom: 20px;
     }
 
     .hero p {
       font-size: 1.2rem;
-      margin-bottom: 30px;
+      margin-top: 15px;
     }
 
-    .btn-custom {
-      background-color: #ffc107;
-      color: #000;
-      padding: 12px 28px;
-      font-size: 1rem;
-      border-radius: 30px;
-      margin: 0 10px;
-      transition: background 0.3s;
-    }
-
-    .btn-custom:hover {
-      background-color: #e0a800;
-    }
-
-    .btn-outline-light:hover {
-      background-color: #ffffff;
+    .btn-gold {
+      background-color: gold;
       color: #001f3f;
-    }
-
-    #courses {
-      padding: 60px 20px;
-      background-color: #f8f9fa;
-      text-align: center;
-    }
-
-    #courses h2 {
-      font-size: 2.5rem;
       font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #001f3f;
+      font-weight: bold;
       margin-bottom: 20px;
     }
 
-    #courses p {
-      font-size: 1.1rem;
-      color: #555;
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
     footer {
       background-color: #001f3f;
       color: white;
       padding: 30px 0;
-      text-align: center;
     }
   </style>
 </head>
-
 <body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-dark">
-    <div class="container">
-      <a class="navbar-brand" href="#">Top Scholars</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#courses">Courses</a></li>
-          <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-        </ul>
-      </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Top Scholars</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="courses.html">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link btn btn-warning text-dark px-3 ms-2" href="login.html">Login</a>
+        </li>
+      </ul>
     </div>
-  </nav>
-
+  </div>
+</nav>
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="container">
-      <h1>Where Excellence Meets Innovation</h1>
-      <p>Empowering students with deep knowledge, smart techniques, and academic success.</p>
-      <a href="#courses" class="btn btn-custom">Explore Courses</a>
-      <a href="login.html" class="btn btn-outline-light">Join Now</a>
-    </div>
-  </section>
+  <div class="hero">
+    <h1>Welcome to Top Scholars</h1>
+    <p>Where Excellence Meets Innovation</p>
+    <a href="about.html" class="btn btn-gold">Learn More</a>
+  </div>
+
+  <!-- About Section -->
+  <div class="container my-5">
+    <h2 class="section-title text-center">About Us</h2>
+    <p class="text-center">
+      At Top Scholars, we believe in nurturing every student's potential through expert teaching, interactive content, and innovative learning techniques. We offer coaching for Class 6–12, BBA, and BCA with top-level guidance in Science, Maths, and English.
+    </p>
+  </div>
 
   <!-- Courses Section -->
-  <section id="courses">
-    <div class="container">
-      <h2>Our Courses</h2>
-      <p>We offer curated courses from Class 6 to 12, BBA & BCA, designed to prepare students for academic and competitive success.</p>
-      <a href="courses.html" class="btn btn-primary mt-4">Go to Courses Page</a>
+  <div class="container my-5">
+    <h2 class="section-title text-center">Our Courses</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 6–8</h4>
+          <p>Strong foundation in core subjects with conceptual clarity and practice.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 9–10</h4>
+          <p>Focused guidance in Science, Maths & English for board and competitive exams.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 11–12</h4>
+          <p>Expert support in Physics, Chemistry, Maths & English to ace every challenge.</p>
+        </div>
+      </div>
     </div>
-  </section>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="text-center my-5">
+    <h3>Join Top Scholars Today!</h3>
+    <p>Start your academic journey with India’s most dedicated team of educators.</p>
+    <a href="register.html" class="btn btn-primary">Register Now</a>
+  </div>
 
   <!-- Footer -->
-  <footer>
-    <div class="container">
-      <p>&copy; 2025 Top Scholars. All rights reserved.</p>
-    </div>
+  <footer class="text-center">
+    <p>&copy; 2025 Top Scholars | Designed by Ayush Malik</p>
   </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
