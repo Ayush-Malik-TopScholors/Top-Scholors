@@ -10,36 +10,38 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f6f9;
       margin: 0;
       padding: 0;
+      background-color: #ffffff;
+      color: #333;
     }
 
     .navbar {
       background-color: #001f3f;
     }
 
-    .navbar-brand, .nav-link {
+    .navbar-brand,
+    .nav-link {
       color: white !important;
       font-weight: 500;
     }
 
     .hero {
-      background: linear-gradient(135deg, #001f3f 60%, #0074D9 100%);
+      background: linear-gradient(to right, #001f3f, #0074D9);
       color: white;
-      padding: 120px 30px;
+      padding: 100px 30px;
       text-align: center;
-      position: relative;
     }
 
     .hero h1 {
-      font-size: 3.2rem;
+      font-size: 3.5rem;
       font-weight: bold;
+      margin-bottom: 20px;
     }
 
     .hero p {
-      font-size: 1.1rem;
-      margin: 20px 0;
+      font-size: 1.2rem;
+      margin-bottom: 30px;
     }
 
     .btn-custom {
@@ -47,47 +49,35 @@
       color: #000;
       padding: 12px 28px;
       font-size: 1rem;
-      border-radius: 50px;
-      margin: 10px;
-      transition: 0.3s ease;
+      border-radius: 30px;
+      margin: 0 10px;
+      transition: background 0.3s;
     }
 
     .btn-custom:hover {
       background-color: #e0a800;
     }
 
-    .btn-outline-light {
-      padding: 12px 28px;
-      font-size: 1rem;
-      border-radius: 50px;
-      margin: 10px;
+    .btn-outline-light:hover {
+      background-color: #ffffff;
+      color: #001f3f;
     }
 
-    .features {
-      padding: 60px 0;
+    #courses {
+      padding: 60px 20px;
+      background-color: #f8f9fa;
       text-align: center;
-      background-color: white;
     }
 
-    .features h2 {
-      font-weight: bold;
-      margin-bottom: 40px;
+    #courses h2 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 20px;
     }
 
-    .feature-icon {
-      font-size: 40px;
-      color: #0074D9;
-      margin-bottom: 15px;
-    }
-
-    .feature-box {
-      padding: 20px;
-      border-radius: 12px;
-      transition: transform 0.3s;
-    }
-
-    .feature-box:hover {
-      transform: translateY(-5px);
+    #courses p {
+      font-size: 1.1rem;
+      color: #555;
     }
 
     footer {
@@ -123,39 +113,18 @@
   <section class="hero">
     <div class="container">
       <h1>Where Excellence Meets Innovation</h1>
-      <p>Smart learning. Deep understanding. Unmatched results.</p>
+      <p>Empowering students with deep knowledge, smart techniques, and academic success.</p>
       <a href="#courses" class="btn btn-custom">Explore Courses</a>
       <a href="login.html" class="btn btn-outline-light">Join Now</a>
     </div>
   </section>
 
-  <!-- Features Section -->
-  <section class="features">
+  <!-- Courses Section -->
+  <section id="courses">
     <div class="container">
-      <h2>Why Choose Top Scholars?</h2>
-      <div class="row">
-        <div class="col-md-4">
-          <div class="feature-box shadow-sm bg-white">
-            <div class="feature-icon"><i class="fas fa-chalkboard-teacher"></i></div>
-            <h5>Expert Faculty</h5>
-            <p>Learn from the best subject experts and experienced educators.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-box shadow-sm bg-white">
-            <div class="feature-icon"><i class="fas fa-book-open"></i></div>
-            <h5>Smart Study Resources</h5>
-            <p>Access notes, quizzes, tests, and polls in an interactive format.</p>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="feature-box shadow-sm bg-white">
-            <div class="feature-icon"><i class="fas fa-award"></i></div>
-            <h5>Proven Results</h5>
-            <p>Track record of academic success with top-performing students.</p>
-          </div>
-        </div>
-      </div>
+      <h2>Our Courses</h2>
+      <p>We offer curated courses from Class 6 to 12, BBA & BCA, designed to prepare students for academic and competitive success.</p>
+      <a href="courses.html" class="btn btn-primary mt-4">Go to Courses Page</a>
     </div>
   </section>
 
