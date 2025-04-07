@@ -8,28 +8,39 @@
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f2f5;
+      background-color: #f7f9fc;
     }
+
     .dashboard {
       max-width: 600px;
-      margin: 50px auto;
-      background: #fff;
+      margin: 80px auto;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
+    .profile-pic {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+    }
+
     .logout-btn {
-      float: right;
+      background-color: #dc3545;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <div class="dashboard">
-    <h3>Welcome, <span id="userName">User</span></h3>
-    <button class="btn btn-danger logout-btn" onclick="logout()">Logout</button>
-    <hr/>
-    <p><strong>Email:</strong> <span id="userEmail"></span></p>
-    <p><strong>Course:</strong> <span id="userCourse"></span></p>
+  <div class="dashboard text-center">
+    <img src="https://www.w3schools.com/howto/img_avatar.png" alt="Profile" class="profile-pic" id="profile-pic" />
+    <h3 id="user-name">Loading...</h3>
+    <p id="user-email">Please wait...</p>
+    <button class="btn btn-primary my-2" onclick="editProfile()">Edit Profile</button>
+    <button class="btn logout-btn my-2" onclick="logout()">Logout</button>
   </div>
 
   <!-- Firebase SDKs -->
@@ -51,35 +62,38 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    const userName = document.getElementById('userName');
-    const userEmail = document.getElementById('userEmail');
-    const userCourse = document.getElementById('userCourse');
-
+    // Load user info
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const docRef = doc(db, "users", user.uid);
-        const docSnap = await getDoc(docRef);
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          userName.textContent = data.fullName || "User";
-          userEmail.textContent = user.email;
-          userCourse.textContent = data.course || "Not selected";
+        if (userSnap.exists()) {
+          const userData = userSnap.data();
+          document.getElementById('user-name').textContent = userData.fullname || "Top Scholar";
+          document.getElementById('user-email').textContent = user.email;
+          if (userData.photoURL) {
+            document.getElementById('profile-pic').src = userData.photoURL;
+          }
         } else {
-          alert("No user data found in Firestore.");
+          document.getElementById('user-name').textContent = "No Data Found";
         }
       } else {
-        // User not logged in
         window.location.href = "login.html";
       }
     });
 
+    // Logout function
     function logout() {
       signOut(auth).then(() => {
         window.location.href = "login.html";
       }).catch((error) => {
-        alert("Error logging out");
+        alert("Logout failed!");
       });
+    }
+
+    function editProfile() {
+      alert("Edit profile feature coming soon!");
     }
   </script>
 </body>
