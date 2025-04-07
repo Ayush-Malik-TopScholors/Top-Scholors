@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Courses to Firestore</title>
+  <script type="module">
+    // Firebase SDKs
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
+      authDomain: "top-scholors.firebaseapp.com",
+      projectId: "top-scholors",
+      storageBucket: "top-scholors.appspot.com",
+      messagingSenderId: "1000049112861",
+      appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function addCourses() {
+      const courses = [
+        {
+          id: "class6",
+          title: "Class 6 Foundation",
+          description: "Concept-based foundation course for Class 6 students.",
+          image: "https://source.unsplash.com/200x200/?classroom"
+        },
+        {
+          id: "class9",
+          title: "Class 9 - Science & Math",
+          description: "Board + Olympiad level guidance for Class 9.",
+          image: "https://source.unsplash.com/200x200/?science,students"
+        },
+        {
+          id: "class10",
+          title: "Class 10 - Board Prep",
+          description: "Complete preparation for Class 10 board exams.",
+          image: "https://source.unsplash.com/200x200/?books,school"
+        },
+        {
+          id: "bba",
+          title: "BBA Entrance Prep",
+          description: "Crack BBA entrance with our expert guidance.",
+          image: "https://source.unsplash.com/200x200/?business,students"
+        }
+      ];
+
+      for (let course of courses) {
+        await addDoc(collection(db, "courses"), course);
+        console.log(`Course ${course.title} added!`);
+      }
+
+      alert("All courses added successfully!");
+    }
+
+    window.onload = addCourses;
+  </script>
+</head>
+<body>
+  <h2>Adding Courses to Firestore...</h2>
+  <p>Keep this window open. Check console for progress.</p>
+</body>
+</html>
