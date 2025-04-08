@@ -1,129 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register | Top Scholars</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(to right, #001f3f, #0074D9);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-      color: white;
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
+    authDomain: "top-scholors.firebaseapp.com",
+    projectId: "top-scholors",
+    storageBucket: "top-scholors.appspot.com",
+    messagingSenderId: "1000049112861",
+    appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  document.getElementById("registerForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // Save user info in Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        username: username,
+        email: email,
+        createdAt: new Date()
+      });
+
+      console.log("✅ User registered successfully. Redirecting to welcome.html...");
+      
+      // Redirect with username as query param after 2 seconds
+      setTimeout(() => {
+        window.location.href = `welcome.html?username=${encodeURIComponent(username)}`;
+      }, 2000);
+
+    } catch (error) {
+      console.error("❌ Registration failed:", error.message);
+      alert("Error: " + error.message);
     }
-    .form-container {
-      background-color: rgba(255, 255, 255, 0.1);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-      width: 90%;
-      max-width: 400px;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 10px;
-      border: none;
-      outline: none;
-    }
-    button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 20px;
-      border: none;
-      background-color: #ffdc00;
-      color: #111;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background-color: #ffd700;
-    }
-    .error {
-      color: red;
-      margin-top: 10px;
-      text-align: center;
-    }
-  </style>
-</head>
-<body>
-  <div class="form-container">
-    <h2>Create Account</h2>
-    <input type="text" id="name" placeholder="Your Name" required />
-    <input type="email" id="email" placeholder="Email" required />
-    <input type="password" id="password" placeholder="Password" required />
-    <button onclick="register()">Register</button>
-    <div class="error" id="error-message"></div>
-  </div>
-
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-      authDomain: "top-scholors.firebaseapp.com",
-      projectId: "top-scholors",
-      storageBucket: "top-scholors.appspot.com",
-      messagingSenderId: "1000049112861",
-      appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-
-    window.register = async function () {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const errorDiv = document.getElementById("error-message");
-      errorDiv.textContent = "";
-
-      if (!name || !email || !password) {
-        errorDiv.textContent = "All fields are required.";
-        return;
-      }
-
-      try {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        // Save user data to Firestore
-        await setDoc(doc(db, "users", user.uid), {
-          uid: user.uid,
-          name: name,
-          email: email,
-          createdAt: new Date()
-        });
-
-        // Redirect to welcome page
-        window.location.href = `welcome.html?username=${encodeURIComponent(name)}`;
-      } catch (error) {
-        if (error.code === "auth/email-already-in-use") {
-          errorDiv.textContent = "Email already in use. Try logging in.";
-        } else if (error.code === "auth/weak-password") {
-          errorDiv.textContent = "Password should be at least 6 characters.";
-        } else if (error.code === "auth/invalid-email") {
-          errorDiv.textContent = "Invalid email address.";
-        } else {
-          errorDiv.textContent = "Error: " + error.message;
-        }
-      }
-    };
-  </script>
-</body>
-</html>
+  });
+</script>
