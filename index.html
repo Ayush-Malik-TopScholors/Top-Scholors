@@ -9,13 +9,13 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
     firebase.initializeApp(firebaseConfig);
   </script>
   <style>
@@ -39,7 +39,10 @@
         <a href="courses.html" class="hover:text-yellow-300">Courses</a>
         <a href="contact.html" class="hover:text-yellow-300">Contact</a>
 
+        <!-- Login Button -->
         <a href="login.html" id="loginBtn" class="bg-green-600 px-3 py-1 rounded hover:bg-green-700 text-white">Login</a>
+
+        <!-- Profile Icon with Dropdown -->
         <div id="profile-container" class="relative group hidden items-center space-x-2 cursor-pointer">
           <span id="username" class="hidden md:inline-block font-semibold"></span>
           <img src="https://www.svgrepo.com/show/7025/user.svg" alt="Profile" class="w-8 h-8 rounded-full border-2 border-white transform transition duration-300 hover:scale-110" title="Profile" />
@@ -58,6 +61,11 @@
     <p class="text-gray-700 text-lg">Where Excellence Meets Innovation</p>
   </section>
 
+  <!-- Register Button at Bottom -->
+  <div id="registerBtnContainer" class="text-center py-10">
+    <a href="register.html" id="registerBtn" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">Register</a>
+  </div>
+
   <!-- Footer -->
   <footer class="bg-blue-800 text-white text-center py-4">
     <p>&copy; 2025 Top Scholars. All rights reserved.</p>
@@ -68,14 +76,19 @@
       const loginBtn = document.getElementById("loginBtn");
       const profileContainer = document.getElementById("profile-container");
       const username = document.getElementById("username");
+      const registerBtnContainer = document.getElementById("registerBtnContainer");
 
       if (user) {
+        // User is signed in
         loginBtn.style.display = "none";
         profileContainer.style.display = "flex";
         username.innerText = user.displayName || user.email;
+        registerBtnContainer.style.display = "none";
       } else {
+        // No user is signed in
         loginBtn.style.display = "inline-block";
         profileContainer.style.display = "none";
+        registerBtnContainer.style.display = "block";
       }
     });
 
