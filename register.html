@@ -2,63 +2,159 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register | Top Scholars</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: linear-gradient(120deg, #1e3c72, #2a5298);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .register-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      padding: 40px;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 400px;
+      color: white;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      text-align: center;
+    }
+
+    .register-box h2 {
+      margin-bottom: 30px;
+      font-size: 2rem;
+    }
+
+    .register-box input {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+    }
+
+    .register-box button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ffcb05;
+      color: #1e3c72;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .register-box button:hover {
+      background-color: #f0b500;
+    }
+
+    .error {
+      color: #ffaaaa;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+
+    .login-link {
+      margin-top: 15px;
+      display: block;
+      font-size: 0.9rem;
+      color: #ffffffcc;
+    }
+
+    .login-link a {
+      color: #fff;
+      text-decoration: underline;
+    }
+  </style>
 </head>
 <body>
-  <div class="form-container">
+
+  <div class="register-box">
     <h2>Register</h2>
-    <form id="register-form">
-      <input type="text" id="username" placeholder="Full Name" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="login.html">Login</a></p>
+    <input type="text" id="username" placeholder="Full Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <button id="registerBtn">Sign Up</button>
+    <div class="error" id="errorMsg"></div>
+    <div class="login-link">Already have an account? <a href="login.html">Login here</a></div>
   </div>
 
+  <!-- Firebase SDKs -->
   <script type="module">
+    // Import Firebase modules
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
     import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
+    // Your Firebase configuration
     const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    document.getElementById("register-form").addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const registerBtn = document.getElementById('registerBtn');
+    const errorMsg = document.getElementById('errorMsg');
 
-      const username = document.getElementById("username").value;
-      const email = document.getElementById("email").value;
-      const password = document.getElementById("password").value;
+    registerBtn.addEventListener('click', async () => {
+      const name = document.getElementById('username').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+
+      errorMsg.textContent = '';
+
+      if (!name || !email || !password) {
+        errorMsg.textContent = "All fields are required!";
+        return;
+      }
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        // Save user info in Firestore
         await setDoc(doc(db, "users", user.uid), {
-          username,
-          email,
+          name: name,
+          email: email,
+          uid: user.uid,
           createdAt: new Date().toISOString()
         });
 
-        // Redirect to welcome.html with username in query param
-        window.location.href = `welcome.html?username=${encodeURIComponent(username)}&next=dashboard.html`;
-
+        sessionStorage.setItem("username", name);
+        window.location.href = "welcome.html";
       } catch (error) {
-        alert(error.message);
-        console.error("Error during registration:", error);
+        if (error.code === "auth/email-already-in-use") {
+          errorMsg.textContent = "Email already in use.";
+        } else if (error.code === "auth/invalid-email") {
+          errorMsg.textContent = "Invalid email format.";
+        } else if (error.code === "auth/weak-password") {
+          errorMsg.textContent = "Password should be at least 6 characters.";
+        } else {
+          errorMsg.textContent = "Error: " + error.message;
+        }
       }
     });
   </script>
