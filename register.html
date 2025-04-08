@@ -1,58 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Register - Top Scholars</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register | Top Scholars</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="form-container">
+    <h2>Register</h2>
+    <form id="register-form">
+      <input type="text" id="username" placeholder="Full Name" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="login.html">Login</a></p>
+  </div>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
-      authDomain: "top-scholors.firebaseapp.com",
-      projectId: "top-scholors",
-      storageBucket: "top-scholors.appspot.com",
-      messagingSenderId: "1000049112861",
-      appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    window.registerUser = async function() {
-      const name = document.getElementById("name").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+    document.getElementById("register-form").addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-      if (!name || !email || !password) {
-        alert("Please fill all fields.");
-        return;
-      }
+      const username = document.getElementById("username").value;
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
 
       try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
+        // Save user info in Firestore
         await setDoc(doc(db, "users", user.uid), {
-          name: name,
-          email: email,
-          uid: user.uid
+          username,
+          email,
+          createdAt: new Date().toISOString()
         });
 
-        window.location.href = `welcome.html?username=${encodeURIComponent(name)}`;
+        // Redirect to welcome.html with username in query param
+        window.location.href = `welcome.html?username=${encodeURIComponent(username)}&next=dashboard.html`;
+
       } catch (error) {
         alert(error.message);
+        console.error("Error during registration:", error);
       }
-    }
+    });
   </script>
-</head>
-<body>
-  <h2>Register for Top Scholars</h2>
-  <input type="text" id="name" placeholder="Full Name" /><br>
-  <input type="email" id="email" placeholder="Email" /><br>
-  <input type="password" id="password" placeholder="Password" /><br>
-  <button onclick="registerUser()">Register</button>
 </body>
 </html>
