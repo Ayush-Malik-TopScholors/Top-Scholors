@@ -5,51 +5,38 @@
   <title>Welcome to Top Scholars</title>
   <style>
     body {
-      background: #f5f7fa;
+      background: linear-gradient(to right, #004080, #0073e6);
+      color: white;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-      font-family: 'Segoe UI', sans-serif;
+      flex-direction: column;
       text-align: center;
     }
-    .welcome-box {
-      background: white;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.15);
-    }
     h1 {
-      color: #1e3a8a;
+      font-size: 2rem;
     }
     p {
-      color: #555;
+      font-size: 1.2rem;
       margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <div class="welcome-box">
-    <h1>Welcome to Top Scholars!</h1>
-    <p>Your future is our responsibility.</p>
-    <p>Redirecting you to your dashboard in <span id="countdown">10</span> seconds...</p>
-  </div>
+  <h1>Welcome to Top Scholars, <span id="username"></span>!</h1>
+  <p>Now your future is our responsibility.</p>
+  <p>You will be redirected to your dashboard shortly...</p>
 
   <script>
     const params = new URLSearchParams(window.location.search);
-    const nextPage = params.get("next") || "user-dashboard.html";
+    const username = params.get("username") || "Scholar";
+    document.getElementById("username").textContent = username;
 
-    let timeLeft = 10;
-    const countdown = document.getElementById("countdown");
-
-    const interval = setInterval(() => {
-      timeLeft--;
-      countdown.textContent = timeLeft;
-      if (timeLeft <= 0) {
-        clearInterval(interval);
-        window.location.href = nextPage;
-      }
-    }, 1000);
+    setTimeout(() => {
+      window.location.href = "dashboard.html";
+    }, 10000); // 10 seconds
   </script>
 </body>
 </html>
