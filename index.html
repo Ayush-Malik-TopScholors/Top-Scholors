@@ -24,48 +24,53 @@
   </script>
 
   <!-- Login State & Profile Dropdown -->
-  <script defer>
-    window.addEventListener("DOMContentLoaded", () => {
-      const loginBtn = document.getElementById("login-btn");
-      const profileWrapper = document.getElementById("profile-wrapper");
-      const dropdown = document.getElementById("profile-dropdown");
-      const logoutBtn = document.getElementById("logout-btn");
-      const dashboardLink = document.getElementById("dashboard-link");
+<script defer>
+  window.addEventListener("DOMContentLoaded", () => {
+    const loginBtn = document.getElementById("login-btn");
+    const profileWrapper = document.getElementById("profile-wrapper");
+    const dropdown = document.getElementById("profile-dropdown");
+    const logoutBtn = document.getElementById("logout-btn");
+    const dashboardLink = document.getElementById("dashboard-link");
 
+    const checkLoginState = () => {
       firebase.auth().onAuthStateChanged((user) => {
         if (user) {
-          loginBtn.classList.add("hidden");
-          profileWrapper.classList.remove("hidden");
+          console.log("User is logged in:", user.email);
+          loginBtn?.classList.add("hidden");
+          profileWrapper?.classList.remove("hidden");
         } else {
-          loginBtn.classList.remove("hidden");
-          profileWrapper.classList.add("hidden");
+          console.log("User not logged in");
+          loginBtn?.classList.remove("hidden");
+          profileWrapper?.classList.add("hidden");
         }
       });
+    };
 
-      // Toggle dropdown
-      profileWrapper.addEventListener("click", () => {
-        dropdown.classList.toggle("hidden");
-      });
+    // Delay slightly to ensure Firebase has initialized
+    setTimeout(checkLoginState, 100);
 
-      // Logout functionality
-      logoutBtn.addEventListener("click", () => {
-        firebase.auth().signOut().then(() => {
-          window.location.href = "index.html";
-        });
-      });
+    profileWrapper?.addEventListener("click", () => {
+      dropdown?.classList.toggle("hidden");
+    });
 
-      dashboardLink.addEventListener("click", () => {
-        window.location.href = "dashboard.html";
-      });
-
-      // Close dropdown if clicked outside
-      document.addEventListener("click", (e) => {
-        if (!profileWrapper.contains(e.target)) {
-          dropdown.classList.add("hidden");
-        }
+    logoutBtn?.addEventListener("click", () => {
+      firebase.auth().signOut().then(() => {
+        window.location.href = "index.html";
       });
     });
-  </script>
+
+    dashboardLink?.addEventListener("click", () => {
+      window.location.href = "dashboard.html";
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!profileWrapper?.contains(e.target)) {
+        dropdown?.classList.add("hidden");
+      }
+    });
+  });
+</script>
+
 
   <style>
     #profile-img {
