@@ -9,13 +9,13 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
   <script>
     const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
     firebase.initializeApp(firebaseConfig);
   </script>
   <style>
@@ -25,14 +25,21 @@
     #profile-container:hover #profile-dropdown {
       display: block;
     }
+    .dropdown-link {
+      transition: all 0.3s ease;
+    }
+    .dropdown-link:hover {
+      transform: translateX(4px);
+      color: #1D4ED8;
+    }
   </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gradient-to-r from-blue-50 to-white font-sans min-h-screen flex flex-col">
 
   <!-- Navbar -->
   <nav class="bg-blue-800 text-white p-4 shadow-lg">
     <div class="container mx-auto flex justify-between items-center">
-      <a href="index.html" class="text-2xl font-bold">Top Scholars</a>
+      <a href="index.html" class="text-2xl font-bold tracking-wider">Top Scholars</a>
       <div class="space-x-6 flex items-center">
         <a href="index.html" class="hover:text-yellow-300 border-b-2 border-yellow-400 font-semibold">Home</a>
         <a href="about.html" class="hover:text-yellow-300">About</a>
@@ -46,9 +53,9 @@
         <div id="profile-container" class="relative group hidden items-center space-x-2 cursor-pointer">
           <span id="username" class="hidden md:inline-block font-semibold"></span>
           <img src="https://www.svgrepo.com/show/7025/user.svg" alt="Profile" class="w-8 h-8 rounded-full border-2 border-white transform transition duration-300 hover:scale-110" title="Profile" />
-          <div id="profile-dropdown" class="absolute right-0 top-10 bg-white text-black rounded shadow-lg py-2 px-4 z-50 w-40">
-            <a href="dashboard/user-dashboard.html" class="block py-1 hover:text-blue-700">Dashboard</a>
-            <button id="logoutBtn" class="block py-1 w-full text-left hover:text-red-600">Logout</button>
+          <div id="profile-dropdown" class="absolute right-0 top-12 bg-white text-black rounded-lg shadow-xl py-2 w-44 z-50 text-sm">
+            <a href="dashboard/user-dashboard.html" class="dropdown-link block px-4 py-2 hover:bg-gray-100">📊 Dashboard</a>
+            <button id="logoutBtn" class="dropdown-link w-full text-left px-4 py-2 hover:bg-gray-100">🚪 Logout</button>
           </div>
         </div>
       </div>
@@ -56,14 +63,15 @@
   </nav>
 
   <!-- Main Content -->
-  <section class="text-center py-20">
-    <h1 class="text-5xl font-bold text-blue-800 mb-4">Welcome to Top Scholars</h1>
-    <p class="text-gray-700 text-lg">Where Excellence Meets Innovation</p>
-  </section>
+  <main class="flex-grow flex flex-col items-center justify-center text-center py-16">
+    <h1 class="text-6xl font-extrabold text-blue-900 mb-4 leading-tight">Welcome to <span class="text-yellow-500">Top Scholars</span></h1>
+    <p class="text-gray-700 text-xl max-w-xl mb-8">Your gateway to excellence. Learn, grow, and succeed with innovative education at your fingertips.</p>
+    <a href="courses.html" class="bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-full text-lg shadow-md transition duration-300">Explore Courses</a>
+  </main>
 
   <!-- Register Button at Bottom -->
   <div id="registerBtnContainer" class="text-center py-10">
-    <a href="register.html" id="registerBtn" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">Register</a>
+    <a href="register.html" id="registerBtn" class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition">Register</a>
   </div>
 
   <!-- Footer -->
@@ -79,13 +87,11 @@
       const registerBtnContainer = document.getElementById("registerBtnContainer");
 
       if (user) {
-        // User is signed in
         loginBtn.style.display = "none";
         profileContainer.style.display = "flex";
         username.innerText = user.displayName || user.email;
         registerBtnContainer.style.display = "none";
       } else {
-        // No user is signed in
         loginBtn.style.display = "inline-block";
         profileContainer.style.display = "none";
         registerBtnContainer.style.display = "block";
@@ -100,3 +106,4 @@
   </script>
 </body>
 </html>
+
