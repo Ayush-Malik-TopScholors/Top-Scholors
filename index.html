@@ -2,132 +2,152 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Top Scholars - Home</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scholars | Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Firebase -->
+  <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script defer src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+
+  <!-- Firebase Config -->
+  <script defer>
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      appId: "YOUR_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
+
+  <!-- Login State & Profile Dropdown -->
+  <script defer>
+    window.addEventListener("DOMContentLoaded", () => {
+      const loginBtn = document.getElementById("login-btn");
+      const profileWrapper = document.getElementById("profile-wrapper");
+      const dropdown = document.getElementById("profile-dropdown");
+      const logoutBtn = document.getElementById("logout-btn");
+      const dashboardLink = document.getElementById("dashboard-link");
+
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          loginBtn.classList.add("hidden");
+          profileWrapper.classList.remove("hidden");
+        } else {
+          loginBtn.classList.remove("hidden");
+          profileWrapper.classList.add("hidden");
+        }
+      });
+
+      // Toggle dropdown
+      profileWrapper.addEventListener("click", () => {
+        dropdown.classList.toggle("hidden");
+      });
+
+      // Logout functionality
+      logoutBtn.addEventListener("click", () => {
+        firebase.auth().signOut().then(() => {
+          window.location.href = "index.html";
+        });
+      });
+
+      dashboardLink.addEventListener("click", () => {
+        window.location.href = "dashboard.html";
+      });
+
+      // Close dropdown if clicked outside
+      document.addEventListener("click", (e) => {
+        if (!profileWrapper.contains(e.target)) {
+          dropdown.classList.add("hidden");
+        }
+      });
+    });
+  </script>
+
   <style>
-    body {
-      background: linear-gradient(to bottom right, #87CEEB, #0d1b2a);
-      color: white;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    #profile-img {
+      transition: transform 0.3s ease;
     }
-    .text-sky { color: #00bfff; }
-    .border-sky { border-color: #00bfff !important; }
-    .navbar-blur {
-      backdrop-filter: blur(10px);
-      background-color: rgba(13, 27, 42, 0.7);
-      border-bottom: 2px solid #00bfff;
-    }
-    .dropdown-menu-dark {
-      background-color: #0d1b2a;
-    }
-    .dropdown-menu-dark a {
-      color: #00bfff;
-    }
-    .dropdown-menu-dark a:hover {
-      background-color: rgba(0, 191, 255, 0.1);
-    }
-    section {
-      scroll-margin-top: 100px;
+    #profile-img:hover {
+      transform: rotate(10deg) scale(1.1);
     }
   </style>
 </head>
-<body>
 
-<!-- 🌟 Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-blur">
-  <div class="container">
-    <a class="navbar-brand fw-bold text-sky" href="index.html" style="font-size: 1.5rem;">Top Scholars</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+<body class="bg-gray-100 font-sans">
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-      <ul class="navbar-nav align-items-center">
-        <li class="nav-item mx-2"><a class="nav-link text-white" href="index.html">Home</a></li>
-        <li class="nav-item mx-2"><a class="nav-link text-white" href="courses.html">Courses</a></li>
-        <li class="nav-item mx-2"><a class="nav-link text-white" href="#about">About</a></li>
-        <li class="nav-item mx-2"><a class="nav-link text-white" href="contact.html">Contact</a></li>
+  <!-- Navbar -->
+  <nav class="bg-blue-800 text-white p-4 shadow-lg relative z-10">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-2xl font-bold">Top Scholars</a>
+      <div class="space-x-6 flex items-center">
+        <a href="index.html" class="hover:text-yellow-300 font-semibold border-b-2 border-yellow-400">Home</a>
+        <a href="about.html" class="hover:text-yellow-300">About</a>
+        <a href="courses.html" class="hover:text-yellow-300">Courses</a>
+        <a href="contact.html" class="hover:text-yellow-300">Contact</a>
 
-        <li class="nav-item dropdown mx-2" id="profileDropdown" style="display: none;">
-          <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-            <img id="profileIcon" src="" alt="Profile" width="40" height="40" class="rounded-circle border border-2 border-sky">
-            <span id="userName" class="text-white fw-semibold"></span>
-          </a>
-          <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
-          </ul>
-        </li>
+        <!-- Login / Profile Section -->
+        <a id="login-btn" href="login.html" class="ml-4 bg-yellow-400 text-blue-800 px-4 py-2 rounded hover:bg-yellow-300 transition">Login</a>
 
-        <li class="nav-item mx-2" id="loginBtn">
-          <a class="btn btn-outline-info rounded-pill px-4" href="login.html">Login</a>
-        </li>
-        <li class="nav-item mx-2" id="registerBtn">
-          <a class="btn btn-info text-dark rounded-pill px-4" href="register.html">Register</a>
-        </li>
-      </ul>
+        <!-- Profile Icon with Dropdown -->
+        <div id="profile-wrapper" class="relative hidden cursor-pointer">
+          <img id="profile-img" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Profile" class="w-10 h-10 rounded-full border-2 border-white shadow" title="Your Profile" />
+          
+          <!-- Dropdown -->
+          <div id="profile-dropdown" class="hidden absolute right-0 mt-2 w-40 bg-white text-black rounded-lg shadow-lg py-2 z-20">
+            <button id="dashboard-link" class="block w-full text-left px-4 py-2 hover:bg-blue-100">Dashboard</button>
+            <button id="logout-btn" class="block w-full text-left px-4 py-2 hover:bg-red-100 text-red-600">Logout</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</nav>
+  </nav>
 
-<!-- 🌟 Hero Section -->
-<section class="vh-100 d-flex justify-content-center align-items-center text-center">
-  <div>
-    <h1 class="display-4 fw-bold text-sky">Welcome to Top Scholars</h1>
-    <p class="lead">Where Excellence Meets Innovation</p>
-    <a href="#about" class="btn btn-lg btn-info text-dark rounded-pill mt-4 px-5">Learn More</a>
-  </div>
-</section>
+  <!-- Hero Section -->
+  <section class="bg-white py-20">
+    <div class="container mx-auto text-center px-6">
+      <h1 class="text-4xl md:text-5xl font-bold text-blue-800 mb-4">Welcome to Top Scholars</h1>
+      <p class="text-gray-600 text-lg md:text-xl mb-8">Where Excellence Meets Innovation — Learn, Practice, and Excel with our expert-curated study materials and engaging quizzes.</p>
+      <a href="courses.html" class="bg-blue-600 text-white px-6 py-3 rounded-lg text-lg hover:bg-blue-700 transition">Explore Our Courses</a>
+    </div>
+  </section>
 
-<!-- 🌟 About Section -->
-<section id="about" class="py-5 bg-dark text-white">
-  <div class="container">
-    <h2 class="text-center text-sky mb-4">About Top Scholars</h2>
-    <p class="fs-5 text-center">Top Scholars is a modern learning platform focused on excellence and innovation. We offer high-quality courses for Classes 6 to 12, BBA, BCA, and more—backed by experienced faculty, interactive content, and a personalized dashboard for every student.</p>
-  </div>
-</section>
+  <!-- Features -->
+  <section class="py-16 bg-gray-100">
+    <div class="container mx-auto px-6 text-center">
+      <h2 class="text-3xl font-bold text-blue-800 mb-10">Why Choose Top Scholars?</h2>
+      <div class="grid md:grid-cols-3 gap-10">
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition">
+          <h3 class="text-xl font-bold mb-2 text-blue-700">Expert Faculty</h3>
+          <p class="text-gray-600">Learn from experienced educators with a deep understanding of subjects.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition">
+          <h3 class="text-xl font-bold mb-2 text-blue-700">Interactive Learning</h3>
+          <p class="text-gray-600">Quizzes, notes, and real-world examples to make learning more fun and effective.</p>
+        </div>
+        <div class="bg-white p-6 rounded-lg shadow hover:shadow-xl transition">
+          <h3 class="text-xl font-bold mb-2 text-blue-700">Comprehensive Coverage</h3>
+          <p class="text-gray-600">From Class 6 to BCA, we’ve got all your academic needs covered.</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-<!-- 🌟 Scripts -->
-<script type="module">
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
+  <!-- CTA -->
+  <section class="py-20 bg-blue-800 text-white text-center">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold mb-4">Start Your Journey with Top Scholars</h2>
+      <p class="mb-6">Join thousands of students transforming their academic future.</p>
+      <a href="register.html" class="bg-yellow-400 text-blue-800 px-6 py-3 rounded-lg font-semibold hover:bg-yellow-300 transition">Register Now</a>
+    </div>
+  </section>
 
-   const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+  <!-- Footer -->
+  <footer class="bg-blue-800 text-white text-center py-4">
+    <p>&copy; 2025 Top Scholars. All rights reserved.</p>
+  </footer>
 
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth();
-
-  const profileDropdown = document.getElementById("profileDropdown");
-  const loginBtn = document.getElementById("loginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const displayName = user.displayName || user.email.split("@")[0];
-      profileDropdown.style.display = "flex";
-      loginBtn.style.display = "none";
-      registerBtn.style.display = "none";
-
-      document.getElementById("profileIcon").src = `https://api.dicebear.com/7.x/initials/svg?seed=${displayName}`;
-      document.getElementById("userName").innerText = displayName;
-    }
-  });
-
-  document.getElementById("logoutBtn")?.addEventListener("click", () => {
-    signOut(auth).then(() => window.location.href = "index.html");
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
