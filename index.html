@@ -7,25 +7,28 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
   <style>
     body {
-      background: linear-gradient(to bottom right, #00c6ff, #0072ff);
+      background: linear-gradient(to bottom right, #87CEEB, #0d1b2a);
       color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .text-highlight { color: #ffeb3b; }
-    .border-highlight { border-color: #ffeb3b !important; }
+    .text-sky { color: #00bfff; }
+    .border-sky { border-color: #00bfff !important; }
     .navbar-blur {
       backdrop-filter: blur(10px);
-      background-color: rgba(0, 0, 100, 0.6);
-      border-bottom: 1px solid #ffeb3b;
+      background-color: rgba(13, 27, 42, 0.7);
+      border-bottom: 2px solid #00bfff;
     }
     .dropdown-menu-dark {
-      background-color: #005f99;
+      background-color: #0d1b2a;
     }
     .dropdown-menu-dark a {
-      color: #ffeb3b;
+      color: #00bfff;
     }
     .dropdown-menu-dark a:hover {
-      background-color: rgba(255, 235, 59, 0.1);
+      background-color: rgba(0, 191, 255, 0.1);
+    }
+    section {
+      scroll-margin-top: 100px;
     }
   </style>
 </head>
@@ -34,28 +37,22 @@
 <!-- 🌟 Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark fixed-top navbar-blur">
   <div class="container">
-    <a class="navbar-brand fw-bold text-highlight" href="index.html" style="font-size: 1.5rem;">Top Scholars</a>
+    <a class="navbar-brand fw-bold text-sky" href="index.html" style="font-size: 1.5rem;">Top Scholars</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav align-items-center">
-        <li class="nav-item mx-2">
-          <a class="nav-link text-white" href="index.html">Home</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link text-white" href="#about">About</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link text-white" href="courses.html">Courses</a>
-        </li>
-        <li class="nav-item mx-2">
-          <a class="nav-link text-white" href="contact.html">Contact</a>
-        </li>
+        <li class="nav-item mx-2"><a class="nav-link text-white" href="index.html">Home</a></li>
+        <li class="nav-item mx-2"><a class="nav-link text-white" href="courses.html">Courses</a></li>
+        <li class="nav-item mx-2"><a class="nav-link text-white" href="#about">About</a></li>
+        <li class="nav-item mx-2"><a class="nav-link text-white" href="contact.html">Contact</a></li>
+
         <li class="nav-item dropdown mx-2" id="profileDropdown" style="display: none;">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-            <img src="https://api.dicebear.com/7.x/initials/svg?seed=User" alt="Profile" width="40" height="40" class="rounded-circle border border-2 border-highlight">
+          <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+            <img id="profileIcon" src="" alt="Profile" width="40" height="40" class="rounded-circle border border-2 border-sky">
+            <span id="userName" class="text-white fw-semibold"></span>
           </a>
           <ul class="dropdown-menu dropdown-menu-end dropdown-menu-dark" aria-labelledby="navbarDropdown">
             <li><a class="dropdown-item" href="dashboard.html">Dashboard</a></li>
@@ -63,35 +60,36 @@
             <li><a class="dropdown-item" href="#" id="logoutBtn">Logout</a></li>
           </ul>
         </li>
+
         <li class="nav-item mx-2" id="loginBtn">
-          <a class="btn btn-outline-warning rounded-pill px-4" href="login.html">Login</a>
+          <a class="btn btn-outline-info rounded-pill px-4" href="login.html">Login</a>
         </li>
         <li class="nav-item mx-2" id="registerBtn">
-          <a class="btn btn-warning text-dark rounded-pill px-4" href="register.html">Register</a>
+          <a class="btn btn-info text-dark rounded-pill px-4" href="register.html">Register</a>
         </li>
       </ul>
     </div>
   </div>
 </nav>
 
-<!-- Hero Section -->
-<section class="vh-100 d-flex justify-content-center align-items-center">
-  <div class="text-center">
-    <h1 class="display-4 fw-bold text-highlight">Welcome to Top Scholars</h1>
+<!-- 🌟 Hero Section -->
+<section class="vh-100 d-flex justify-content-center align-items-center text-center">
+  <div>
+    <h1 class="display-4 fw-bold text-sky">Welcome to Top Scholars</h1>
     <p class="lead">Where Excellence Meets Innovation</p>
-    <a href="#about" class="btn btn-lg btn-warning rounded-pill mt-4 px-5">Learn More</a>
+    <a href="#about" class="btn btn-lg btn-info text-dark rounded-pill mt-4 px-5">Learn More</a>
   </div>
 </section>
 
-<!-- About Section -->
-<section id="about" class="py-5 bg-white text-dark">
-  <div class="container text-center">
-    <h2 class="mb-4">About Top Scholars</h2>
-    <p class="lead">Top Scholars is committed to providing high-quality education with modern technology and personalized mentorship. We prepare students from Class 6 to BCA for academic excellence and future success.</p>
+<!-- 🌟 About Section -->
+<section id="about" class="py-5 bg-dark text-white">
+  <div class="container">
+    <h2 class="text-center text-sky mb-4">About Top Scholars</h2>
+    <p class="fs-5 text-center">Top Scholars is a modern learning platform focused on excellence and innovation. We offer high-quality courses for Classes 6 to 12, BBA, BCA, and more—backed by experienced faculty, interactive content, and a personalized dashboard for every student.</p>
   </div>
 </section>
 
-<!-- Firebase + Bootstrap Scripts -->
+<!-- 🌟 Scripts -->
 <script type="module">
   import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
@@ -108,11 +106,19 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth();
 
+  const profileDropdown = document.getElementById("profileDropdown");
+  const loginBtn = document.getElementById("loginBtn");
+  const registerBtn = document.getElementById("registerBtn");
+
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      document.getElementById("profileDropdown").style.display = "block";
-      document.getElementById("loginBtn").style.display = "none";
-      document.getElementById("registerBtn").style.display = "none";
+      const displayName = user.displayName || user.email.split("@")[0];
+      profileDropdown.style.display = "flex";
+      loginBtn.style.display = "none";
+      registerBtn.style.display = "none";
+
+      document.getElementById("profileIcon").src = `https://api.dicebear.com/7.x/initials/svg?seed=${displayName}`;
+      document.getElementById("userName").innerText = displayName;
     }
   });
 
@@ -120,6 +126,7 @@
     signOut(auth).then(() => window.location.href = "index.html");
   });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
