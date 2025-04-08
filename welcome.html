@@ -1,42 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Welcome to Top Scholars</title>
   <style>
     body {
-      background: linear-gradient(to right, #004080, #0073e6);
-      color: white;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       display: flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
       height: 100vh;
-      flex-direction: column;
+      margin: 0;
+      background: linear-gradient(to right, #1e3c72, #2a5298);
+      color: white;
       text-align: center;
     }
+    .message-box {
+      padding: 40px;
+      border-radius: 16px;
+      background-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
     h1 {
-      font-size: 2rem;
+      font-size: 2em;
+      margin-bottom: 20px;
     }
     p {
-      font-size: 1.2rem;
-      margin-top: 10px;
+      font-size: 1.2em;
+    }
+    .countdown {
+      font-weight: bold;
+      font-size: 1.4em;
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <h1>Welcome to Top Scholars, <span id="username"></span>!</h1>
-  <p>Now your future is our responsibility.</p>
-  <p>You will be redirected to your dashboard shortly...</p>
+  <div class="message-box">
+    <h1>Welcome to Top Scholars!</h1>
+    <p>Now your future is our responsibility.<br/>
+    Redirecting to your dashboard in <span class="countdown">10</span> seconds...</p>
+  </div>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
-    const username = params.get("username") || "Scholar";
-    document.getElementById("username").textContent = username;
+    let countdownValue = 10;
+    const countdownEl = document.querySelector(".countdown");
 
-    setTimeout(() => {
-      window.location.href = "dashboard.html";
-    }, 10000); // 10 seconds
+    const timer = setInterval(() => {
+      countdownValue--;
+      countdownEl.textContent = countdownValue;
+
+      if (countdownValue === 0) {
+        clearInterval(timer);
+        window.location.href = "dashboard.html";
+      }
+    }, 1000);
   </script>
 </body>
 </html>
