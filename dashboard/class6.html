@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Class 6 | Top Scholars</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <style>
@@ -20,9 +20,15 @@
     <button id="exitBtn" class="btn btn-danger d-none">Exit Course</button>
   </div>
   <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a></li>
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a>
+    </li>
   </ul>
   <div class="tab-content mt-3">
     <div id="notes" class="tab-pane fade show active">Notes Content Here...</div>
@@ -36,14 +42,15 @@
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
- const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+  // ✅ Your Firebase config
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MSG_SENDER_ID",
+    appId: "YOUR_APP_ID"
+  };
 
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
@@ -53,8 +60,7 @@
   const exitBtn = document.getElementById("exitBtn");
   const tabContent = document.querySelector(".tab-content");
 
-  let userId = null;
-  const courseId = "class6";
+  const courseId = "class6"; // Change this for class7, class8, etc.
 
   function lockTabs(lock = true) {
     tabContent.querySelectorAll(".tab-pane").forEach(tab => {
@@ -65,9 +71,9 @@
   onAuthStateChanged(auth, async (user) => {
     if (!user) {
       lockTabs(true);
-      enrollBtn.addEventListener("click", () => window.location.href = "login.html");
+      enrollBtn.addEventListener("click", () => window.location.href = "../login.html");
     } else {
-      userId = user.uid;
+      const userId = user.uid;
       const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
       const data = userSnap.data() || {};
@@ -102,6 +108,7 @@
     }
   });
 </script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
