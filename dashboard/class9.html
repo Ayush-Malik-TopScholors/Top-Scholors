@@ -1,45 +1,34 @@
+<!-- class6.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Class 9 - Top Scholars</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class 9 | Top Scholars</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <style>
-    .locked-overlay {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background-color: rgba(0,0,0,0.6);
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.2rem;
-      z-index: 1;
-      border-radius: 5px;
+    .tab-content > .locked {
+      pointer-events: none;
+      opacity: 0.5;
     }
   </style>
 </head>
 <body>
-<div class="container mt-4">
-  <h2>Class 9 - Course Dashboard</h2>
-  <div class="d-flex justify-content-between my-3">
-    <button class="btn btn-success" id="enrollBtn">Enroll Now</button>
-    <button class="btn btn-danger d-none" id="exitBtn">Exit Course</button>
+<div class="container my-5">
+  <h2>Class 9 Dashboard</h2>
+  <div id="enrollActions" class="mb-4">
+    <button id="enrollBtn" class="btn btn-primary">Enroll Now</button>
+    <button id="exitBtn" class="btn btn-danger d-none">Exit Course</button>
   </div>
-
-  <ul class="nav nav-tabs" id="courseTabs">
+  <ul class="nav nav-tabs">
     <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a></li>
     <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a></li>
   </ul>
-
-  <div class="tab-content position-relative mt-3" id="tabContent">
-    <div class="tab-pane fade show active p-3" id="notes">Course notes will appear here.</div>
-    <div class="tab-pane fade p-3" id="quizzes">Quizzes will be listed here.</div>
-    <div class="tab-pane fade p-3" id="polls">Polls will be shown here.</div>
-    <div class="locked-overlay d-none" id="lockOverlay">Please Enroll to Access This Content</div>
+  <div class="tab-content mt-3">
+    <div id="notes" class="tab-pane fade show active">Notes Content Here...</div>
+    <div id="quizzes" class="tab-pane fade">Quizzes Content Here...</div>
+    <div id="polls" class="tab-pane fade">Polls Content Here...</div>
   </div>
 </div>
 
@@ -48,73 +37,63 @@
   import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
   import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-   const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
-
+  const firebaseConfig = { /* your firebase config here */ };
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getFirestore(app);
 
   const enrollBtn = document.getElementById("enrollBtn");
   const exitBtn = document.getElementById("exitBtn");
-  const lockOverlay = document.getElementById("lockOverlay");
+  const tabContent = document.querySelector(".tab-content");
 
-  let currentUser = null;
+  let userId = null;
   const courseId = "class9";
 
+  function lockTabs(lock = true) {
+    tabContent.querySelectorAll(".tab-pane").forEach(tab => {
+      tab.classList.toggle("locked", lock);
+    });
+  }
+
   onAuthStateChanged(auth, async (user) => {
-    if (user) {
-      currentUser = user;
-      const userRef = doc(db, "users", user.uid);
+    if (!user) {
+      lockTabs(true);
+      enrollBtn.addEventListener("click", () => window.location.href = "login.html");
+    } else {
+      userId = user.uid;
+      const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
-      const enrolledCourses = userSnap.exists() ? userSnap.data().enrolledCourses || [] : [];
+      const data = userSnap.data() || {};
+      const enrolledCourses = data.enrolledCourses || [];
 
       if (enrolledCourses.includes(courseId)) {
-        unlockCourse();
+        enrollBtn.classList.add("d-none");
+        exitBtn.classList.remove("d-none");
+        lockTabs(false);
       } else {
-        lockCourse();
+        lockTabs(true);
       }
 
       enrollBtn.addEventListener("click", async () => {
         await updateDoc(userRef, {
           enrolledCourses: [...enrolledCourses, courseId]
         });
-        unlockCourse();
+        enrollBtn.classList.add("d-none");
+        exitBtn.classList.remove("d-none");
+        lockTabs(false);
       });
 
       exitBtn.addEventListener("click", async () => {
-        const updatedCourses = enrolledCourses.filter(course => course !== courseId);
+        const updatedCourses = enrolledCourses.filter(c => c !== courseId);
         await updateDoc(userRef, {
           enrolledCourses: updatedCourses
         });
-        lockCourse();
-      });
-
-    } else {
-      lockCourse();
-      enrollBtn.addEventListener("click", () => {
-        window.location.href = "login.html";
+        enrollBtn.classList.remove("d-none");
+        exitBtn.classList.add("d-none");
+        lockTabs(true);
       });
     }
   });
-
-  function unlockCourse() {
-    enrollBtn.classList.add("d-none");
-    exitBtn.classList.remove("d-none");
-    lockOverlay.classList.add("d-none");
-  }
-
-  function lockCourse() {
-    enrollBtn.classList.remove("d-none");
-    exitBtn.classList.add("d-none");
-    lockOverlay.classList.remove("d-none");
-  }
 </script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
