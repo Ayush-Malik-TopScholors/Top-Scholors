@@ -3,113 +3,158 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Top Scholars | Home</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+  <title>Top Scholars | Where Excellence Meets Innovation</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
-    .dropdown-content {
-      display: none;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      scroll-behavior: smooth;
     }
-    .dropdown.active .dropdown-content {
-      display: block;
+
+    .hero {
+      background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://source.unsplash.com/1600x600/?education,students') center/cover no-repeat;
+      color: white;
+      padding: 120px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 15px;
+    }
+
+    .btn-gold {
+      background-color: gold;
+      color: #001f3f;
+      font-weight: 600;
+      margin-top: 20px;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      color: #001f3f;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    footer {
+      background-color: #001f3f;
+      color: white;
+      padding: 30px 0;
     }
   </style>
 </head>
-<body class="bg-gray-50 font-sans">
-
+<body>
 <!-- Navbar -->
-<nav class="bg-blue-800 text-white p-4 shadow-lg">
-  <div class="container mx-auto flex justify-between items-center">
-    <a href="index.html" class="text-2xl font-bold">Top Scholars</a>
-    <div class="space-x-6 hidden md:flex">
-      <a href="index.html" class="hover:text-yellow-300 font-semibold border-b-2 border-yellow-400">Home</a>
-      <a href="about.html" class="hover:text-yellow-300">About</a>
-      <a href="courses.html" class="hover:text-yellow-300">Courses</a>
-      <a href="contact.html" class="hover:text-yellow-300">Contact</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="index.html">Top Scholars</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="courses.html">Courses</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+        <li class="nav-item">
+          <a class="btn btn-outline-light ms-3" href="login.html">Login</a>
+        </li>
+      </ul>
     </div>
-    <!-- Right side -->
-    <div class="flex items-center space-x-4">
-      <button id="loginBtn" class="bg-white text-blue-800 px-3 py-1 rounded hover:bg-gray-100">Login</button>
-      <div id="profileSection" class="hidden relative dropdown">
-        <img id="profileIcon" src="https://www.svgrepo.com/show/382106/profile-avatar-account-user.svg" alt="Profile" class="w-8 h-8 rounded-full cursor-pointer border-2 border-white" onclick="toggleDropdown()">
-        <div class="absolute right-0 mt-2 w-40 bg-white rounded shadow-lg text-black dropdown-content z-50">
-          <div class="px-4 py-2 border-b font-semibold" id="usernameDisplay">User</div>
-          <a href="dashboard.html" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
-          <button onclick="logout()" class="w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+  </div>
+</nav>
+  <!-- Hero Section -->
+  <div class="hero">
+    <h1>Welcome to Top Scholars</h1>
+    <p>Where Excellence Meets Innovation</p>
+    <a href="about.html" class="btn btn-gold">Learn More</a>
+  </div>
+
+  <!-- About Section -->
+  <div class="container my-5">
+    <h2 class="section-title text-center">About Us</h2>
+    <p class="text-center">
+      At Top Scholars, we believe in nurturing every student's potential through expert teaching, interactive content, and innovative learning techniques. We offer coaching for Class 6–12, BBA, and BCA with top-level guidance in Science, Maths, and English.
+    </p>
+  </div>
+
+  <!-- Courses Section -->
+  <div class="container my-5">
+    <h2 class="section-title text-center">Our Courses</h2>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 6–8</h4>
+          <p>Strong foundation in core subjects with conceptual clarity and practice.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 9–10</h4>
+          <p>Focused guidance in Science, Maths & English for board and competitive exams.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card p-4">
+          <h4>Classes 11–12</h4>
+          <p>Expert support in Physics, Chemistry, Maths & English to ace every challenge.</p>
         </div>
       </div>
     </div>
   </div>
-</nav>
 
-<!-- Hero Section -->
-<section class="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20 px-6 text-center">
-  <div class="max-w-4xl mx-auto">
-    <h1 class="text-4xl md:text-5xl font-bold mb-4">Welcome to Top Scholars</h1>
-    <p class="text-xl mb-6">Where Excellence Meets Innovation</p>
-    <a href="register.html" id="registerBtn" class="mt-4 inline-block bg-yellow-400 text-blue-900 font-bold py-2 px-6 rounded hover:bg-yellow-300">Register Now</a>
+  <!-- Call to Action -->
+  <div class="text-center my-5">
+    <h3>Join Top Scholars Today!</h3>
+    <p>Start your academic journey with India’s most dedicated team of educators.</p>
+    <a href="register.html" class="btn btn-primary">Register Now</a>
   </div>
-</section>
 
-<!-- Footer -->
-<footer class="bg-blue-800 text-white text-center py-4 mt-10">
-  <p>&copy; 2025 Top Scholars. All rights reserved.</p>
-</footer>
+  <!-- Footer -->
+  <footer class="text-center">
+    <p>&copy; 2025 Top Scholars | Designed by Ayush Malik</p>
+  </footer>
 
-<script>
-   const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
-  firebase.initializeApp(firebaseConfig);
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module">
+  // Import the functions you need from the SDKs you need
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  // TODO: Add SDKs for Firebase products that you want to use
+  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  const auth = firebase.auth();
-  const loginBtn = document.getElementById("loginBtn");
-  const registerBtn = document.getElementById("registerBtn");
-  const profileSection = document.getElementById("profileSection");
-  const usernameDisplay = document.getElementById("usernameDisplay");
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
+    authDomain: "top-scholors.firebaseapp.com",
+    projectId: "top-scholors",
+    storageBucket: "top-scholors.firebasestorage.app",
+    messagingSenderId: "1000049112861",
+    appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
+  };
 
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      loginBtn.style.display = "none";
-      registerBtn.style.display = "none";
-      profileSection.classList.remove("hidden");
-      usernameDisplay.textContent = user.displayName || user.email;
-    } else {
-      loginBtn.style.display = "block";
-      registerBtn.style.display = "inline-block";
-      profileSection.classList.add("hidden");
-    }
-  });
-
-  loginBtn.addEventListener("click", () => {
-    window.location.href = "login.html";
-  });
-
-  function logout() {
-    firebase.auth().signOut().then(() => {
-      window.location.href = "index.html";
-    });
-  }
-
-  function toggleDropdown() {
-    const dropdown = document.querySelector(".dropdown");
-    dropdown.classList.toggle("active");
-  }
-
-  // Optional: Close dropdown when clicking outside
-  document.addEventListener("click", (event) => {
-    const dropdown = document.querySelector(".dropdown");
-    if (dropdown && !dropdown.contains(event.target) && !event.target.matches('#profileIcon')) {
-      dropdown.classList.remove("active");
-    }
-  });
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 </script>
-
 </body>
 </html>
