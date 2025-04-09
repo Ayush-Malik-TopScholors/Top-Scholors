@@ -4,104 +4,131 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Class 7 | Top Scholars</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    .tab-content > .locked {
+    .locked {
       pointer-events: none;
-      opacity: 0.5;
+      opacity: 0.6;
+    }
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 180px;
+      background-color: #343a40;
+      color: white;
+      padding: 1rem;
+    }
+    .sidebar h5 {
+      margin-bottom: 1rem;
+    }
+    .content {
+      margin-left: 200px;
+      padding: 2rem;
     }
   </style>
 </head>
 <body>
-<div class="container my-5">
-  <h2>Class 7 Dashboard</h2>
-  <div id="enrollActions" class="mb-4">
-    <button id="enrollBtn" class="btn btn-primary">Enroll Now</button>
+  <div class="sidebar">
+    <h5>Class 7</h5>
     <button id="exitBtn" class="btn btn-danger d-none">Exit Course</button>
   </div>
-  <ul class="nav nav-tabs">
-    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a></li>
-    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a></li>
-  </ul>
-  <div class="tab-content mt-3">
-    <div id="notes" class="tab-pane fade show active">Notes Content Here...</div>
-    <div id="quizzes" class="tab-pane fade">Quizzes Content Here...</div>
-    <div id="polls" class="tab-pane fade">Polls Content Here...</div>
+  <div class="content">
+    <h2>Welcome to Class 7</h2>
+    <div id="enrollActions" class="mb-4">
+      <button id="enrollBtn" class="btn btn-primary">Enroll Now</button>
+      <div id="statusMsg" class="mt-3 text-success"></div>
+    </div>
+    <ul class="nav nav-tabs">
+      <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a></li>
+      <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a></li>
+    </ul>
+    <div class="tab-content mt-3">
+      <div id="notes" class="tab-pane fade show active">Notes Content</div>
+      <div id="quizzes" class="tab-pane fade">Quizzes Content</div>
+      <div id="polls" class="tab-pane fade">Polls Content</div>
+    </div>
   </div>
-</div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+    const firebaseConfig = {
+      // your config here
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
+    const courseId = "class7";
+    const enrollBtn = document.getElementById("enrollBtn");
+    const exitBtn = document.getElementById("exitBtn");
+    const tabContent = document.querySelector(".tab-content");
+    const statusMsg = document.getElementById("statusMsg");
 
-  const enrollBtn = document.getElementById("enrollBtn");
-  const exitBtn = document.getElementById("exitBtn");
-  const tabContent = document.querySelector(".tab-content");
-
-  let userId = null;
-  const courseId = "class7";
-
-  function lockTabs(lock = true) {
-    tabContent.querySelectorAll(".tab-pane").forEach(tab => {
-      tab.classList.toggle("locked", lock);
-    });
-  }
-
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      lockTabs(true);
-      enrollBtn.addEventListener("click", () => window.location.href = "../login.html");
-    } else {
-      userId = user.uid;
-      const userRef = doc(db, "users", userId);
-      const userSnap = await getDoc(userRef);
-      const data = userSnap.data() || {};
-      const enrolledCourses = data.enrolledCourses || [];
-
-      if (enrolledCourses.includes(courseId)) {
-        enrollBtn.classList.add("d-none");
-        exitBtn.classList.remove("d-none");
-        lockTabs(false);
-      } else {
-        lockTabs(true);
-      }
-
-      enrollBtn.addEventListener("click", async () => {
-        await updateDoc(userRef, {
-          enrolledCourses: [...enrolledCourses, courseId]
-        });
-        enrollBtn.classList.add("d-none");
-        exitBtn.classList.remove("d-none");
-        lockTabs(false);
-      });
-
-      exitBtn.addEventListener("click", async () => {
-        const updatedCourses = enrolledCourses.filter(c => c !== courseId);
-        await updateDoc(userRef, {
-          enrolledCourses: updatedCourses
-        });
-        enrollBtn.classList.remove("d-none");
-        exitBtn.classList.add("d-none");
-        lockTabs(true);
+    function lockTabs(message) {
+      tabContent.querySelectorAll(".tab-pane").forEach(tab => {
+        tab.classList.add("locked");
+        tab.innerHTML = `<div class='alert alert-warning text-center'>${message}</div>`;
       });
     }
-  });
-</script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    function unlockTabs() {
+      document.getElementById("notes").innerHTML = "Notes Content";
+      document.getElementById("quizzes").innerHTML = "Quizzes Content";
+      document.getElementById("polls").innerHTML = "Polls Content";
+      tabContent.querySelectorAll(".tab-pane").forEach(tab => {
+        tab.classList.remove("locked");
+      });
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        lockTabs("Please login first to access content.");
+        enrollBtn.addEventListener("click", () => location.href = "login.html");
+      } else {
+        const userId = user.uid;
+        const userRef = doc(db, "users", userId);
+        const userSnap = await getDoc(userRef);
+        const userData = userSnap.data() || {};
+        const enrolledCourses = userData.enrolledCourses || [];
+
+        const isEnrolled = enrolledCourses.includes(courseId);
+
+        if (isEnrolled) {
+          unlockTabs();
+          enrollBtn.classList.add("d-none");
+          exitBtn.classList.remove("d-none");
+          statusMsg.textContent = "Welcome! You're enrolled.";
+        } else {
+          lockTabs("Please enroll first to access content.");
+        }
+
+        enrollBtn.addEventListener("click", async () => {
+          await updateDoc(userRef, {
+            enrolledCourses: [...enrolledCourses, courseId],
+          });
+          unlockTabs();
+          enrollBtn.classList.add("d-none");
+          exitBtn.classList.remove("d-none");
+          statusMsg.textContent = "Welcome! You're enrolled.";
+        });
+
+        exitBtn.addEventListener("click", async () => {
+          const updated = enrolledCourses.filter(c => c !== courseId);
+          await updateDoc(userRef, { enrolledCourses: updated });
+          lockTabs("Please enroll first to access content.");
+          enrollBtn.classList.remove("d-none");
+          exitBtn.classList.add("d-none");
+          statusMsg.textContent = "";
+        });
+      }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
