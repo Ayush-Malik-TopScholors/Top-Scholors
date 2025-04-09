@@ -94,8 +94,9 @@
     onAuthStateChanged(auth, async (user) => {
       if (!user) {
         lockTabs("Please login first to access content.");
-        enrollBtn.addEventListener("click", () => location.href = "login.html");
-      } else {
+        enrollBtn.addEventListener("click", () => window.location.href = "../login.html");
+
+     } else {
         const userId = user.uid;
         const userRef = doc(db, "users", userId);
         const userSnap = await getDoc(userRef);
