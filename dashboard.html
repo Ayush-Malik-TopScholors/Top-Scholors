@@ -1,136 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>User Dashboard | Top Scholars</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #f4f6f9;
-    }
-
-    .sidebar {
-      width: 220px;
-      height: 100vh;
-      position: fixed;
-      background-color: #002147;
-      color: white;
-      padding-top: 20px;
-    }
-
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar ul li {
-      padding: 15px 20px;
-      cursor: pointer;
-    }
-
-    .sidebar ul li:hover {
-      background-color: #00122e;
-    }
-
-    .main-content {
-      margin-left: 220px;
-      padding: 30px;
-    }
-
-    .profile-box {
-      background: white;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    .logout-btn {
-      background-color: #d9534f;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    .logout-btn:hover {
-      background-color: #c9302c;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Top Scholars | Dashboard</title>
+  <script type="module">
+    // Firebase config
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_ID",
+      appId: "YOUR_APP_ID"
+    };
+    export const app = initializeApp(firebaseConfig);
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-gray-100 text-gray-800">
+  <!-- Navbar -->
+  <nav class="bg-white shadow px-6 py-4 flex justify-between items-center">
+    <h1 class="text-2xl font-bold text-blue-600">Top Scholars</h1>
+    <div class="relative">
+      <img src="https://api.dicebear.com/7.x/initials/svg?seed=U" alt="Profile"
+        class="w-10 h-10 rounded-full cursor-pointer border-2 border-blue-600"
+        id="profileIcon">
+      <div id="dropdownMenu"
+        class="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg z-50 hidden">
+        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Dashboard</a>
+        <button id="logoutBtn" class="block w-full text-left px-4 py-2 hover:bg-gray-100">Logout</button>
+      </div>
+    </div>
+  </nav>
 
-<body>
-  <div class="sidebar">
-    <h2>Top Scholars</h2>
-    <ul>
-      <li>Dashboard</li>
-      <li>Notes</li>
-      <li>Quizzes</li>
-      <li>Polls</li>
-      <li onclick="logout()">Logout</li>
-    </ul>
-  </div>
+  <!-- Dashboard Tabs -->
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex flex-wrap gap-4 mb-4">
+      <button class="tab-button bg-blue-500 text-white px-4 py-2 rounded" data-tab="profileTab">Profile</button>
+      <button class="tab-button bg-blue-500 text-white px-4 py-2 rounded" data-tab="myCoursesTab">My Courses</button>
+    </div>
 
-  <div class="main-content">
-    <div class="profile-box">
-      <h2>Welcome, <span id="username">User</span>!</h2>
-      <p><strong>Email:</strong> <span id="useremail"></span></p>
-      <button class="logout-btn" onclick="logout()">Logout</button>
+    <!-- Profile Tab -->
+    <div id="profileTab" class="tab-content">
+      <h2 class="text-xl font-bold mb-2">Welcome to Your Dashboard</h2>
+      <p>This is your profile info. More features coming soon!</p>
+    </div>
+
+    <!-- My Courses Tab -->
+    <div id="myCoursesTab" class="tab-content hidden">
+      <h2 class="text-xl font-bold mb-4">My Enrolled Courses</h2>
+      <div id="enrolledCoursesContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- Enrolled courses will load here -->
+      </div>
     </div>
   </div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-app.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore.js";
+  <!-- Tab Switching Script -->
+  <script>
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabContents = document.querySelectorAll(".tab-content");
 
-    const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+    tabButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        const target = button.dataset.tab;
+        tabContents.forEach(tab => tab.classList.add("hidden"));
+        document.getElementById(target).classList.remove("hidden");
+      });
+    });
+  </script>
+
+  <!-- Profile Dropdown Script -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    const auth = getAuth();
+
+    const profileIcon = document.getElementById("profileIcon");
+    const dropdownMenu = document.getElementById("dropdownMenu");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    profileIcon.addEventListener("click", () => {
+      dropdownMenu.classList.toggle("hidden");
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.href = "index.html";
+      });
+    });
+  </script>
+
+  <!-- Load Enrolled Courses -->
+  <script type="module">
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { app } from './firebase.js';
+
+    const auth = getAuth();
+    const db = getFirestore();
+
+    const enrolledCoursesContainer = document.getElementById("enrolledCoursesContainer");
 
     onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userRef = doc(db, "users", user.uid);
-        const userSnap = await getDoc(userRef);
+        const courseRef = collection(db, "users", user.uid, "enrolledCourses");
+        const snapshot = await getDocs(courseRef);
 
-        if (userSnap.exists()) {
-          const userData = userSnap.data();
-          document.getElementById("username").textContent = userData.username || "User";
-          document.getElementById("useremail").textContent = user.email;
+        if (snapshot.empty) {
+          enrolledCoursesContainer.innerHTML = `<p class="text-gray-500">No courses enrolled yet.</p>`;
         } else {
-          console.log("No such user data in Firestore.");
+          snapshot.forEach(doc => {
+            const course = doc.data();
+            const courseCard = `
+              <div class="bg-white shadow-md rounded p-4">
+                <h3 class="text-lg font-bold mb-2">${course.title || 'Untitled Course'}</h3>
+                <a href="${course.link || '#'}" class="inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Go to Course</a>
+              </div>`;
+            enrolledCoursesContainer.innerHTML += courseCard;
+          });
         }
       } else {
-        window.location.href = "login.html";
+        enrolledCoursesContainer.innerHTML = `<p class="text-red-500">Login to view your courses.</p>`;
       }
     });
-
-    window.logout = function () {
-      signOut(auth).then(() => {
-        window.location.href = "login.html";
-      }).catch((error) => {
-        alert("Logout error: " + error.message);
-      });
-    }
   </script>
 </body>
-
 </html>
