@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Class 8 Course</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      color: white;
+      margin: 10px 5px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .btn-success {
+      background-color: #28a745;
+    }
+    .btn-danger {
+      background-color: #dc3545;
+    }
+    .btn:disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+    .d-none {
+      display: none;
+    }
+    .tabs {
+      margin-top: 20px;
+    }
+    .tab-btn {
+      padding: 10px 15px;
+      margin-right: 10px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    .tab-content {
+      display: none;
+      margin-top: 20px;
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .locked-overlay {
+      position: fixed;
+      top: 100px;
+      left: 0;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      text-align: center;
+      padding: 40px;
+      z-index: 999;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>📘 Class 9 Course</h2>
+  <button id="enrollBtn" class="btn btn-success">Enroll Now</button>
+  <button id="exitBtn" class="btn btn-danger d-none">Exit Course</button>
+
+  <div class="tabs">
+    <button class="tab-btn" data-tab="notes">Notes</button>
+    <button class="tab-btn" data-tab="quizzes">Quizzes</button>
+    <button class="tab-btn" data-tab="polls">Polls</button>
+  </div>
+
+  <div id="notes" class="tab-content">📒 Notes content for Class 9...</div>
+  <div id="quizzes" class="tab-content">📝 Quizzes content for Class 9...</div>
+  <div id="polls" class="tab-content">📊 Polls content for Class 9...</div>
+
+  <div class="locked-overlay d-none" id="lockedOverlay">
+    🔒 Please enroll to access the course content.
+  </div>
+
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+
+    // Firebase config
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const enrollBtn = document.getElementById("enrollBtn");
+    const exitBtn = document.getElementById("exitBtn");
+    const lockedOverlay = document.getElementById("lockedOverlay");
+
+    const courseId = "class8";
+    let currentUser;
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      currentUser = user;
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, { enrolledCourses: [] });
+      }
+
+      const enrolledCourses = userSnap.data()?.enrolledCourses || [];
+
+      if (enrolledCourses.includes(courseId)) {
+        unlockCourse();
+      } else {
+        lockCourse();
+      }
+    });
+
+    enrollBtn.addEventListener("click", async () => {
+      const userRef = doc(db, "users", currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      const enrolledCourses = userSnap.data()?.enrolledCourses || [];
+
+      if (!enrolledCourses.includes(courseId)) {
+        enrolledCourses.push(courseId);
+        await updateDoc(userRef, { enrolledCourses });
+      }
+
+      unlockCourse();
+    });
+
+    exitBtn.addEventListener("click", async () => {
+      const userRef = doc(db, "users", currentUser.uid);
+      const userSnap = await getDoc(userRef);
+      let enrolledCourses = userSnap.data()?.enrolledCourses || [];
+
+      enrolledCourses = enrolledCourses.filter(id => id !== courseId);
+      await updateDoc(userRef, { enrolledCourses });
+
+      lockCourse();
+    });
+
+    function lockCourse() {
+      enrollBtn.classList.remove("d-none");
+      exitBtn.classList.add("d-none");
+      lockedOverlay.classList.remove("d-none");
+    }
+
+    function unlockCourse() {
+      enrollBtn.classList.add("d-none");
+      exitBtn.classList.remove("d-none");
+      lockedOverlay.classList.add("d-none");
+    }
+
+    // Tab logic
+    const tabs = document.querySelectorAll(".tab-btn");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = btn.getAttribute("data-tab");
+        contents.forEach(c => c.classList.remove("active"));
+        document.getElementById(target).classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
