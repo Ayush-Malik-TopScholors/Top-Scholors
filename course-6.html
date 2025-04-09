@@ -3,187 +3,130 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Class 6 Course</title>
+  <title>Class 6 | Top Scholars</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
+    .tab-content > .locked {
+      pointer-events: none;
+      opacity: 0.5;
     }
-    .btn {
-      padding: 10px 20px;
-      border: none;
-      color: white;
-      margin: 10px 5px;
-      cursor: pointer;
+    .message-box {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      padding: 10px;
       border-radius: 5px;
+      margin-top: 10px;
     }
-    .btn-success {
-      background-color: #28a745;
-    }
-    .btn-danger {
-      background-color: #dc3545;
-    }
-    .btn:disabled {
-      background-color: #ccc;
-      cursor: not-allowed;
-    }
-    .d-none {
-      display: none;
-    }
-    .tabs {
-      margin-top: 20px;
-    }
-    .tab-btn {
-      padding: 10px 15px;
-      margin-right: 10px;
-      cursor: pointer;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-    }
-    .tab-content {
-      display: none;
-      margin-top: 20px;
-      padding: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .tab-content.active {
-      display: block;
-    }
-    .locked-overlay {
+    #sidebar {
       position: fixed;
-      top: 100px;
-      left: 0;
-      width: 100%;
-      background: rgba(255, 255, 255, 0.95);
-      text-align: center;
-      padding: 40px;
-      z-index: 999;
-      font-size: 20px;
-      font-weight: bold;
+      top: 80px;
+      left: 20px;
     }
   </style>
 </head>
 <body>
+<div class="container my-5">
+  <h2>Class 6 Dashboard</h2>
 
-  <h2>📘 Class 9 Course</h2>
-  <button id="enrollBtn" class="btn btn-success">Enroll Now</button>
-  <button id="exitBtn" class="btn btn-danger d-none">Exit Course</button>
-
-  <div class="tabs">
-    <button class="tab-btn" data-tab="notes">Notes</button>
-    <button class="tab-btn" data-tab="quizzes">Quizzes</button>
-    <button class="tab-btn" data-tab="polls">Polls</button>
+  <div id="sidebar" class="d-none">
+    <button id="exitBtn" class="btn btn-danger">Exit Course</button>
   </div>
 
-  <div id="notes" class="tab-content">📒 Notes content for Class 9...</div>
-  <div id="quizzes" class="tab-content">📝 Quizzes content for Class 9...</div>
-  <div id="polls" class="tab-content">📊 Polls content for Class 9...</div>
-
-  <div class="locked-overlay d-none" id="lockedOverlay">
-    🔒 Please enroll to access the course content.
+  <div id="enrollActions" class="mb-4">
+    <button id="enrollBtn" class="btn btn-primary">Enroll Now</button>
+    <div id="statusMsg" class="message-box d-none"></div>
   </div>
 
-  <script type="module">
-    // Firebase imports
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
-    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, updateDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
+  <ul class="nav nav-tabs">
+    <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#notes">Notes</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#quizzes">Quizzes</a></li>
+    <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#polls">Polls</a></li>
+  </ul>
 
-    // Firebase config
-    const firebaseConfig = {
-  apiKey: "AIzaSyBm695mNRbJl2bx90pJUtKmRxr4YqV8BS8",
-  authDomain: "top-scholors.firebaseapp.com",
-  projectId: "top-scholors",
-  storageBucket: "top-scholors.firebasestorage.app",
-  messagingSenderId: "1000049112861",
-  appId: "1:1000049112861:web:c808cf7afb9e33c2b5d3f4"
-};
+  <div class="tab-content mt-3">
+    <div id="notes" class="tab-pane fade show active">Notes Content Here...</div>
+    <div id="quizzes" class="tab-pane fade">Quizzes Content Here...</div>
+    <div id="polls" class="tab-pane fade">Polls Content Here...</div>
+  </div>
+</div>
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-firestore.js";
 
-    const enrollBtn = document.getElementById("enrollBtn");
-    const exitBtn = document.getElementById("exitBtn");
-    const lockedOverlay = document.getElementById("lockedOverlay");
+  const firebaseConfig = {
+    // your config here
+  };
 
-    const courseId = "class6";
-    let currentUser;
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
 
-    onAuthStateChanged(auth, async (user) => {
-      if (!user) {
-        window.location.href = "login.html";
-        return;
-      }
+  const enrollBtn = document.getElementById("enrollBtn");
+  const exitBtn = document.getElementById("exitBtn");
+  const tabContent = document.querySelector(".tab-content");
+  const statusMsg = document.getElementById("statusMsg");
+  const sidebar = document.getElementById("sidebar");
 
-      currentUser = user;
-      const userRef = doc(db, "users", user.uid);
+  let userId = null;
+  const courseId = "class6";
+
+  function lockTabs(lock = true, message = "") {
+    tabContent.querySelectorAll(".tab-pane").forEach(tab => {
+      tab.classList.toggle("locked", lock);
+    });
+    if (message) {
+      statusMsg.classList.remove("d-none");
+      statusMsg.textContent = message;
+    } else {
+      statusMsg.classList.add("d-none");
+    }
+  }
+
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      lockTabs(true, "Please login to access this course.");
+      enrollBtn.addEventListener("click", () => window.location.href = "../login.html");
+    } else {
+      userId = user.uid;
+      const userRef = doc(db, "users", userId);
       const userSnap = await getDoc(userRef);
-
-      if (!userSnap.exists()) {
-        await setDoc(userRef, { enrolledCourses: [] });
-      }
-
-      const enrolledCourses = userSnap.data()?.enrolledCourses || [];
+      const data = userSnap.data() || {};
+      const enrolledCourses = data.enrolledCourses || [];
 
       if (enrolledCourses.includes(courseId)) {
-        unlockCourse();
+        enrollBtn.classList.add("d-none");
+        sidebar.classList.remove("d-none");
+        lockTabs(false);
+        statusMsg.classList.remove("d-none");
+        statusMsg.textContent = "🎉 Welcome! You have full access to this course.";
       } else {
-        lockCourse();
+        lockTabs(true, "Please enroll to unlock course content.");
+        enrollBtn.addEventListener("click", async () => {
+          await updateDoc(userRef, {
+            enrolledCourses: [...enrolledCourses, courseId]
+          });
+          enrollBtn.classList.add("d-none");
+          sidebar.classList.remove("d-none");
+          lockTabs(false);
+          statusMsg.classList.remove("d-none");
+          statusMsg.textContent = "🎉 Welcome! You have successfully enrolled.";
+        });
       }
-    });
 
-    enrollBtn.addEventListener("click", async () => {
-      const userRef = doc(db, "users", currentUser.uid);
-      const userSnap = await getDoc(userRef);
-      const enrolledCourses = userSnap.data()?.enrolledCourses || [];
-
-      if (!enrolledCourses.includes(courseId)) {
-        enrolledCourses.push(courseId);
-        await updateDoc(userRef, { enrolledCourses });
-      }
-
-      unlockCourse();
-    });
-
-    exitBtn.addEventListener("click", async () => {
-      const userRef = doc(db, "users", currentUser.uid);
-      const userSnap = await getDoc(userRef);
-      let enrolledCourses = userSnap.data()?.enrolledCourses || [];
-
-      enrolledCourses = enrolledCourses.filter(id => id !== courseId);
-      await updateDoc(userRef, { enrolledCourses });
-
-      lockCourse();
-    });
-
-    function lockCourse() {
-      enrollBtn.classList.remove("d-none");
-      exitBtn.classList.add("d-none");
-      lockedOverlay.classList.remove("d-none");
-    }
-
-    function unlockCourse() {
-      enrollBtn.classList.add("d-none");
-      exitBtn.classList.remove("d-none");
-      lockedOverlay.classList.add("d-none");
-    }
-
-    // Tab logic
-    const tabs = document.querySelectorAll(".tab-btn");
-    const contents = document.querySelectorAll(".tab-content");
-
-    tabs.forEach(btn => {
-      btn.addEventListener("click", () => {
-        const target = btn.getAttribute("data-tab");
-        contents.forEach(c => c.classList.remove("active"));
-        document.getElementById(target).classList.add("active");
+      exitBtn.addEventListener("click", async () => {
+        const updatedCourses = enrolledCourses.filter(c => c !== courseId);
+        await updateDoc(userRef, {
+          enrolledCourses: updatedCourses
+        });
+        enrollBtn.classList.remove("d-none");
+        sidebar.classList.add("d-none");
+        lockTabs(true, "You have exited the course. Please enroll again to access content.");
       });
-    });
-  </script>
+    }
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
